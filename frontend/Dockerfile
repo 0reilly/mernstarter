@@ -8,6 +8,9 @@ RUN npm install
 
 COPY . .
 
+RUN npm run build:css
+
+
 EXPOSE 3000
 
 CMD ["npm", "start"]
