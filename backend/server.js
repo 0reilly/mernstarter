@@ -5,6 +5,7 @@ require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 5001;
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/todoapp';
 
 // CORS configuration
 const corsOptions = {
@@ -18,7 +19,7 @@ app.use(cors(corsOptions));
 
 app.use(express.json());
 
-mongoose.connect(process.env.MONGODB_URI, {
+mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,

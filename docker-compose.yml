@@ -1,5 +1,5 @@
 services:
-    frontend:
+    frontend_${projectId}:
         build: ./frontend
         ports:
             - "3001:3000"
@@ -12,24 +12,26 @@ services:
         depends_on:
             - backend
 
-    backend:
-        build: ./backend
+    backend_${projectId}:
+        build:
+            context: ./backend
+            dockerfile: Dockerfile
         ports:
-            - "5001:5001"
+            - "5001:5000"
+        environment:
+            - MONGODB_URI=mongodb://mongo_${projectId}:27017/todoapp
         volumes:
             - ./backend:/app
             - /app/node_modules
-        environment:
-            - FRONTEND_URL=http://localhost:3001
         depends_on:
-            - mongo
+            - mongo_${projectId}
 
-    mongo:
-        image: mongo
-        ports:
-            - "27017:27017"
-        volumes:
-            - mongo-data:/data/db
+        mongo_${projectId}:
+            image: mongo:4.4
+            ports:
+                - "27018:27017"
+            volumes:
+                - mongo_data_${projectId}:/data/db
 
-volumes:
-    mongo-data:
+    volumes:
+        mongo_data_${projectId}:
