@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:14-alpine
 
 WORKDIR /app
 
@@ -8,8 +8,7 @@ RUN npm install
 
 COPY . .
 
-RUN npm run build:css
-
+RUN npm run build
 
 EXPOSE 3000
 
