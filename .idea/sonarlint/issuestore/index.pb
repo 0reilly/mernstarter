@@ -26,3 +26,9 @@ A
 frontend/.env,e/5/e51ccb9a6155f3c59685c017c8fce22c869af68e
 B
 docker-compose.yml,3/5/35b8c13cf2eb2a194eada000eb310d65aed53b2a
+K
+frontend/tailwind.config.js,e/f/ef5a90fd36dd52866b87125460df93ff827f7beb
+J
+frontend/postcss.config.js,2/b/2b6b07f21f4b86a668563572a541f1dfaaa7ada8
+F
+frontend/src/index.css,9/1/91e522be11677dbeaea3b85493b4868d2728cb6c
