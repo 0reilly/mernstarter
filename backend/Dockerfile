@@ -1,13 +1,19 @@
-FROM node:16-alpine
+FROM node:18-alpine
+
+# Install pnpm
+RUN npm install -g pnpm
 
 WORKDIR /app
 
-COPY package*.json ./
+# Copy package.json and pnpm-lock.yaml
+COPY package*.json pnpm-lock.yaml ./
 
-RUN npm install
+# Install dependencies
+RUN pnpm install --frozen-lockfile
 
+# Copy the rest of the application code
 COPY . .
 
 EXPOSE 5000
 
-CMD ["npm", "start"]
+CMD ["pnpm", "start"]

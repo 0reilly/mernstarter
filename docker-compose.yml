@@ -1,3 +1,5 @@
+version: '3'
+
 services:
     frontend:
         build: ./frontend
@@ -5,7 +7,7 @@ services:
             - "3001:3000"
         volumes:
             - ./frontend:/app
-            - /app/node_modules
+            # Remove the node_modules volume mount
         environment:
             - CHOKIDAR_USEPOLLING=true
             - REACT_APP_API_URL=http://localhost:5001
@@ -18,7 +20,7 @@ services:
             - "5001:5001"
         volumes:
             - ./backend:/app
-            - /app/node_modules
+            # Remove the node_modules volume mount
         environment:
             - FRONTEND_URL=http://localhost:3001
             - MONGODB_URI=mongodb://mongo:27017/saas_db
