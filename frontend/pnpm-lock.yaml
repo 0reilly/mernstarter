@@ -17,6 +17,9 @@ importers:
       react-dom:
         specifier: ^17.0.2
         version: 17.0.2(react@17.0.2)
+      react-router-dom:
+        specifier: ^6.24.1
+        version: 6.24.1(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
       react-scripts:
         specifier: 4.0.3
         version: 4.0.3(@types/webpack@4.41.38)(eslint@7.32.0)(react@17.0.2)(sockjs-client@1.6.1)(typescript@4.9.5)
@@ -941,6 +944,10 @@ packages:
         optional: true
       webpack-plugin-serve:
         optional: true
+
+  '@remix-run/router@1.17.1':
+    resolution: {integrity: sha512-mCOMec4BKd6BRGBZeSnGiIgwsbLGp3yhVqAD8H+PxiRNEHgDpZb8J1TnrSDlg97t0ySKMQJTHCWBCmBpSmkF6Q==}
+    engines: {node: '>=14.0.0'}
 
   '@rollup/plugin-node-resolve@7.1.3':
     resolution: {integrity: sha512-RxtSL3XmdTAE2byxekYLnx+98kEUOrPHF/KRVjLH+DEIHy6kjIw7YINQzn+NXiH/NTrQLAwYs0GWB+csWygA9Q==}
@@ -5010,6 +5017,19 @@ packages:
     resolution: {integrity: sha512-X8jZHc7nCMjaCqoU+V2I0cOhNW+QMBwSUkeXnTi8IPe6zaRWfn60ZzvFDZqWPfmSJfjub7dDW1SP0jaHWLu/hg==}
     engines: {node: '>=0.10.0'}
 
+  react-router-dom@6.24.1:
+    resolution: {integrity: sha512-U19KtXqooqw967Vw0Qcn5cOvrX5Ejo9ORmOtJMzYWtCT4/WOfFLIZGGsVLxcd9UkBO0mSTZtXqhZBsWlHr7+Sg==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      react: '>=16.8'
+      react-dom: '>=16.8'
+
+  react-router@6.24.1:
+    resolution: {integrity: sha512-PTXFXGK2pyXpHzVo3rR9H7ip4lSPZZc0bHG5CARmj65fTT6qG7sTngmb6lcYu1gf3y/8KxORoy9yn59pGpCnpg==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      react: '>=16.8'
+
   react-scripts@4.0.3:
     resolution: {integrity: sha512-S5eO4vjUzUisvkIPB7jVsKtuH2HhWcASREYWHAQ1FP5HyCv3xgn+wpILAEWkmy+A+tTNbSZClhxjT3qz6g4L1A==}
     engines: {node: ^10.12.0 || >=12.0.0}
@@ -8163,7 +8183,11 @@ snapshots:
       jest-runner: 26.6.3
       jest-runtime: 26.6.3
     transitivePeerDependencies:
+      - bufferutil
+      - canvas
       - supports-color
+      - ts-node
+      - utf-8-validate
 
   '@jest/transform@26.6.2':
     dependencies:
@@ -8254,6 +8278,8 @@ snapshots:
       '@types/webpack': 4.41.38
       sockjs-client: 1.6.1(supports-color@6.1.0)
       webpack-dev-server: 3.11.1(webpack@4.44.2)
+
+  '@remix-run/router@1.17.1': {}
 
   '@rollup/plugin-node-resolve@7.1.3(rollup@1.32.1)':
     dependencies:
@@ -11582,7 +11608,11 @@ snapshots:
       stack-utils: 2.0.6
       throat: 5.0.0
     transitivePeerDependencies:
+      - bufferutil
+      - canvas
       - supports-color
+      - ts-node
+      - utf-8-validate
 
   jest-cli@26.6.3:
     dependencies:
@@ -11718,11 +11748,7 @@ snapshots:
       pretty-format: 26.6.2
       throat: 5.0.0
     transitivePeerDependencies:
-      - bufferutil
-      - canvas
       - supports-color
-      - ts-node
-      - utf-8-validate
 
   jest-leak-detector@26.6.2:
     dependencies:
@@ -13429,6 +13455,18 @@ snapshots:
   react-is@17.0.2: {}
 
   react-refresh@0.8.3: {}
+
+  react-router-dom@6.24.1(react-dom@17.0.2(react@17.0.2))(react@17.0.2):
+    dependencies:
+      '@remix-run/router': 1.17.1
+      react: 17.0.2
+      react-dom: 17.0.2(react@17.0.2)
+      react-router: 6.24.1(react@17.0.2)
+
+  react-router@6.24.1(react@17.0.2):
+    dependencies:
+      '@remix-run/router': 1.17.1
+      react: 17.0.2
 
   react-scripts@4.0.3(@types/webpack@4.41.38)(eslint@7.32.0)(react@17.0.2)(sockjs-client@1.6.1)(typescript@4.9.5):
     dependencies:
