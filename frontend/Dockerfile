@@ -18,6 +18,8 @@ ENV NODE_OPTIONS=--openssl-legacy-provider
 
 RUN pnpm run build
 
+RUN pnpm run build:css
+
 EXPOSE 3000
 
 CMD ["pnpm", "start"]
