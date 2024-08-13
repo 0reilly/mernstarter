@@ -14,6 +14,6 @@ RUN pnpm install
 # Copy the rest of the application code
 COPY . .
 
-EXPOSE 5000
+EXPOSE 5001
 
 CMD ["pnpm", "start"]

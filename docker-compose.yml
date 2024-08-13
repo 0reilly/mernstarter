@@ -4,10 +4,10 @@ services:
     frontend:
         build: ./frontend
         ports:
-            - "${FRONTEND_PORT:-3001}:3000"
+            - "3001:3001"
         environment:
             - CHOKIDAR_USEPOLLING=true
-            - REACT_APP_API_URL=http://localhost:${BACKEND_PORT:-5001}
+            - REACT_APP_API_URL=http://localhost:5001
             - REACT_APP_STRIPE_PUBLISHABLE_KEY=${STRIPE_PUBLISHABLE_KEY}
         depends_on:
             - backend
@@ -15,10 +15,11 @@ services:
     backend:
         build: ./backend
         ports:
-            - "${BACKEND_PORT:-5001}:5001"
+            - "5001:5001"
         environment:
-            - FRONTEND_URL=http://localhost:${FRONTEND_PORT:-3001}
-            - MONGODB_URI=mongodb://mongo:27017/${DB_NAME:-saas_db}
+            - PORT=5001
+            - FRONTEND_URL=http://localhost:3001
+            - MONGODB_URI=mongodb://mongo:27017/saas_db
             - JWT_SECRET=${JWT_SECRET}
             - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
             - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}

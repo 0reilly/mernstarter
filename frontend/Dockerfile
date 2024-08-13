@@ -20,6 +20,6 @@ RUN pnpm run build
 
 RUN pnpm run build:css
 
-EXPOSE 3000
+EXPOSE 3001
 
 CMD ["pnpm", "start"]
