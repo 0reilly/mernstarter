@@ -4,37 +4,31 @@ services:
     frontend:
         build: ./frontend
         ports:
-            - "3001:3000"
-        volumes:
-            - ./frontend:/app
-            # Remove the node_modules volume mount
+            - "${FRONTEND_PORT:-3001}:3000"
         environment:
             - CHOKIDAR_USEPOLLING=true
-            - REACT_APP_API_URL=http://localhost:5001
-            - REACT_APP_STRIPE_PUBLISHABLE_KEY=pk_test_51PhNekHAfivlkvgPKR2PVnSvVlioV6hxkEFpB0waQdzMjzkz6klfGuWFt5u7zS0edWty2S0WEaFyQLeo29zTFqx800etiJEurB
+            - REACT_APP_API_URL=http://localhost:${BACKEND_PORT:-5001}
+            - REACT_APP_STRIPE_PUBLISHABLE_KEY=${STRIPE_PUBLISHABLE_KEY}
         depends_on:
             - backend
 
     backend:
         build: ./backend
         ports:
-            - "5001:5001"
-        volumes:
-            - ./backend:/app
-            # Remove the node_modules volume mount
+            - "${BACKEND_PORT:-5001}:5001"
         environment:
-            - FRONTEND_URL=http://localhost:3001
-            - MONGODB_URI=mongodb://mongo:27017/saas_db
-            - JWT_SECRET=im_gay
-            - STRIPE_SECRET_KEY=sk_test_51PhNekHAfivlkvgP86lF2kti8YIXwCk2jEuX6TTRksXLFDXr8KTSdeZqRAHbW3vbpPqvRztNDgtnV4FYhSXCKHww00YAXWosHi
-            - STRIPE_WEBHOOK_SECRET=whsec_c9a9df628f09679530fefc94059c8647cb8a65f67d8c3846c05ef52c7c5c15e0
+            - FRONTEND_URL=http://localhost:${FRONTEND_PORT:-3001}
+            - MONGODB_URI=mongodb://mongo:27017/${DB_NAME:-saas_db}
+            - JWT_SECRET=${JWT_SECRET}
+            - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+            - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}
         depends_on:
             - mongo
 
     mongo:
         image: mongo
         ports:
-            - "27017:27017"
+            - "${MONGO_PORT:-27017}:27017"
         volumes:
             - mongo-data:/data/db
 

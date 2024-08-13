@@ -17,16 +17,13 @@ const app = express();
 const port = process.env.PORT || 5001;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/todoapp';
 
-// CORS configuration
 const corsOptions = {
-    origin: process.env.FRONTEND_URL || 'http://localhost:3001', // Allow the frontend URL
-    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
-    optionsSuccessStatus: 200 // For legacy browser support
+  origin: process.env.FRONTEND_URL || 'http://localhost:3001',
+  credentials: true,
+  optionsSuccessStatus: 200
 };
 
-// Apply CORS middleware
 app.use(cors(corsOptions));
-
 app.use(express.json());
 
 mongoose.connect(MONGODB_URI, {
