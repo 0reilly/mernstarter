@@ -8,7 +8,7 @@ services:
         environment:
             - CHOKIDAR_USEPOLLING=true
             - REACT_APP_API_URL=http://localhost:5001
-            - REACT_APP_STRIPE_PUBLISHABLE_KEY=STRIPE_PUBLISHABLE_KEY=pk_live_51BQIZJFRs2YmnLPIMK5D38WojCyNq7yQmzeV0EN7Jw47Wmu5Ev3vXF6XoP1lcIkd4ANVFDPrQNXeochTbw7WqYoG00p482Dh50
+            - REACT_APP_STRIPE_PUBLISHABLE_KEY=pk_live_51BQIZJFRs2YmnLPIMK5D38WojCyNq7yQmzeV0EN7Jw47Wmu5Ev3vXF6XoP1lcIkd4ANVFDPrQNXeochTbw7WqYoG00p482Dh50
         depends_on:
             - backend
 
