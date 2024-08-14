@@ -220,7 +220,9 @@ app.get('/api/test', auth, (req, res) => {
     }
   });
 
-  
+  app.get('/api/verify-token', auth, (req, res) => {
+    res.json({ valid: true });
+  });
 
   const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 

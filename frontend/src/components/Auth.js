@@ -8,11 +8,6 @@ const Auth = ({ setIsAuthenticated }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    const interval = setInterval(checkTokenExpiration, 60000);
-    return () => clearInterval(interval);
-  }, []);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -30,17 +25,6 @@ const Auth = ({ setIsAuthenticated }) => {
       setIsAuthenticated(true);
     } catch (error) {
       setError(error.message || 'An error occurred during authentication');
-    }
-  };
-
-  const checkTokenExpiration = () => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const decodedToken = JSON.parse(atob(token.split('.')[1]));
-      if (decodedToken.exp * 1000 < Date.now()) {
-        localStorage.removeItem('token');
-        setIsAuthenticated(false);
-      }
     }
   };
 

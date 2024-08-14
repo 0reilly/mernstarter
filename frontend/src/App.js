@@ -10,13 +10,46 @@ const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      setIsAuthenticated(true);
-    }
-  }, []);
+  const handleAuthError = () => {
+    localStorage.removeItem('token');
+    setIsAuthenticated(false);
+  };
 
+  const handleApiResponse = async (response) => {
+    if (response.status === 401) {
+      const data = await response.json();
+      if (data.errorType === 'InvalidToken') {
+        // Token is invalid, trigger re-authentication
+        handleAuthError();
+      }
+    }
+    return response;
+  };
+
+  useEffect(() => {
+    const checkTokenExpiration = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5001'}/api/verify-token`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          await handleApiResponse(response);
+          if (!response.ok) {
+            throw new Error('Token verification failed');
+          }
+          setIsAuthenticated(true);
+        } catch (error) {
+          console.error('Token verification error:', error);
+          handleAuthError();
+        }
+      }
+    };
+
+    checkTokenExpiration();
+    const interval = setInterval(checkTokenExpiration, 60000); // Check every minute
+    return () => clearInterval(interval);
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -56,7 +89,7 @@ const App = () => {
         
         <footer className="bg-white border-t border-gray-200">
           <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
-            <p className="text-center text-sm text-gray-500">&copy; 2024 MERN SaaS Boilerplate (change this based on the prompt). All rights reserved.</p>
+            <p className="text-center text-sm text-gray-500">&copy; 2024 MERN SaaS Boilerplate. All rights reserved.</p>
           </div>
         </footer>
       </div>

@@ -9,13 +9,13 @@ const auth = (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_fallback_secret_key');
     req.userId = decoded.userId;
     console.log('User authenticated:', req.userId);
     next();
   } catch (error) {
     console.error('Authentication error:', error);
-    res.status(401).json({ error: 'Please authenticate.' });
+    res.status(401).json({ error: 'Invalid token', errorType: 'InvalidToken' });
   }
 };
 
