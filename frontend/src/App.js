@@ -66,7 +66,7 @@ const App = () => {
         <header className="bg-white shadow-sm">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center py-4">
-              <h1 className="text-2xl font-bold text-gray-900">MERN SaaS Boilerplate</h1>
+              <h1 className="text-2xl font-bold text-gray-900">Replace this title</h1>
               <nav>
                 <ul className="flex space-x-4">
                   <li>
@@ -89,7 +89,7 @@ const App = () => {
         
         <footer className="bg-white border-t border-gray-200">
           <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
-            <p className="text-center text-sm text-gray-500">&copy; 2024 MERN SaaS Boilerplate. All rights reserved.</p>
+            <p className="text-center text-sm text-gray-500">&copy; 2024 Replace this footer. All rights reserved.</p>
           </div>
         </footer>
       </div>

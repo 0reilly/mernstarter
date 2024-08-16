@@ -1,6 +1,6 @@
-# MERN Stack SaaS Boilerplate
+# Replace this Title 
 
-This is a boilerplate for a MERN stack SaaS application using Docker.
+This is a boilerplate for a MERN stack SaaS application using Docker. Replace the content with proper documentation for the app created.
 
 ## Getting Started
 
