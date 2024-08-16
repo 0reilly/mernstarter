@@ -1,5 +1,5 @@
 /*
-! tailwindcss v3.4.5 | MIT License | https://tailwindcss.com
+! tailwindcss v3.4.10 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -1085,34 +1085,17 @@ video {
   transition-duration: 150ms;
 }
 
-.file\:border-0::-webkit-file-upload-button {
-  border-width: 0px;
-}
-
 .file\:border-0::file-selector-button {
   border-width: 0px;
-}
-
-.file\:bg-transparent::-webkit-file-upload-button {
-  background-color: transparent;
 }
 
 .file\:bg-transparent::file-selector-button {
   background-color: transparent;
 }
 
-.file\:text-sm::-webkit-file-upload-button {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-}
-
 .file\:text-sm::file-selector-button {
   font-size: 0.875rem;
   line-height: 1.25rem;
-}
-
-.file\:font-medium::-webkit-file-upload-button {
-  font-weight: 500;
 }
 
 .file\:font-medium::file-selector-button {
