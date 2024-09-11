@@ -1,65 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, NavLink, Navigate } from 'react-router-dom';
-import Auth from './components/Auth';
-import { Button } from './components/ui/button';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, NavLink } from 'react-router-dom';
 import Dashboard from './components/Dashboard';
-import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
 
+//simulated user ID
+const userId = 'user123';
+
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  const handleAuthError = () => {
-    localStorage.removeItem('token');
-    setIsAuthenticated(false);
-  };
-
-  const handleApiResponse = async (response) => {
-    if (response.status === 401) {
-      const data = await response.json();
-      if (data.errorType === 'InvalidToken') {
-        // Token is invalid, trigger re-authentication
-        handleAuthError();
-      }
-    }
-    return response;
-  };
-
-  useEffect(() => {
-    const checkTokenExpiration = async () => {
-      const token = localStorage.getItem('token');
-      if (token) {
-        try {
-          const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5001'}/api/verify-token`, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          await handleApiResponse(response);
-          if (!response.ok) {
-            throw new Error('Token verification failed');
-          }
-          setIsAuthenticated(true);
-        } catch (error) {
-          console.error('Token verification error:', error);
-          handleAuthError();
-        }
-      }
-    };
-
-    checkTokenExpiration();
-    const interval = setInterval(checkTokenExpiration, 60000); // Check every minute
-    return () => clearInterval(interval);
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    setIsAuthenticated(false);
-  };
-
-  if (!isAuthenticated) {
-    return <Auth setIsAuthenticated={setIsAuthenticated} />;
-  }
-
   return (
     <Router>
       <div className="min-h-screen flex flex-col bg-gray-100">
@@ -76,14 +24,13 @@ const App = () => {
                   </li>
                 </ul>
               </nav>
-              <Button onClick={handleLogout} variant="outline">Logout</Button>
             </div>
           </div>
         </header>
 
         <main className="flex-grow container mx-auto px-4 py-8">
         <Routes>
-        <Route path="/" element={<Dashboard />} />
+          <Route path="/" element={<Dashboard userId={userId} />} />
         </Routes>
         </main>
         
