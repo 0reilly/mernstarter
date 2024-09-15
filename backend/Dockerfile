@@ -11,8 +11,11 @@ COPY package*.json ./
 # Install dependencies
 RUN pnpm install
 
+
 # Copy the rest of the application code
 COPY . .
+
+RUN pnpm run test
 
 EXPOSE 5001
 
