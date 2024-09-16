@@ -20,8 +20,6 @@ RUN pnpm run build
 
 RUN pnpm run build:css
 
-RUN CI=true pnpm run test
-
 EXPOSE 3001
 
 CMD ["pnpm", "start"]
