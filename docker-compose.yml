@@ -8,7 +8,6 @@ services:
         environment:
             - CHOKIDAR_USEPOLLING=true
             - REACT_APP_API_URL=http://localhost:5001
-            - REACT_APP_STRIPE_PUBLISHABLE_KEY=pk_live_51BQIZJFRs2YmnLPIMK5D38WojCyNq7yQmzeV0EN7Jw47Wmu5Ev3vXF6XoP1lcIkd4ANVFDPrQNXeochTbw7WqYoG00p482Dh50
         depends_on:
             - backend
 
@@ -20,9 +19,6 @@ services:
             - PORT=5001
             - FRONTEND_URL=http://localhost:3001
             - MONGODB_URI=mongodb://mongo:27017/saas_db
-            - JWT_SECRET=jwtsecret
-            - STRIPE_SECRET_KEY=sk_live_DtWUZU35ETDC7rpLEf8lZVId
-            - STRIPE_WEBHOOK_SECRET=whsec_lk5U1PzTE51YrRHQsI3NtbsMPSsQHcPr
             - CLIENT_URL=https://localhost:3001
         depends_on:
             - mongo
