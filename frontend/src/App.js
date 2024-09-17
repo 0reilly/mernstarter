@@ -5,7 +5,7 @@ import Dashboard from './components/Dashboard';
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
 
 //simulated user ID
-const userId = 'user123';
+const userId = localStorage.getItem('userId');
 
 const App = () => {
   return (
