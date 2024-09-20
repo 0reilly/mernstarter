@@ -16,6 +16,9 @@ COPY . .
 
 ENV NODE_OPTIONS=--openssl-legacy-provider
 
+# Run tests
+RUN pnpm test
+
 RUN pnpm run build
 
 RUN pnpm run build:css
