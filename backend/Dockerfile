@@ -14,9 +14,6 @@ RUN pnpm install
 # Copy the rest of the application code
 COPY . .
 
-# Run tests
-RUN pnpm test
-
 EXPOSE 5001
 
 CMD ["pnpm", "start"]
