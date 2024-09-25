@@ -3,7 +3,6 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
-        "@heroicons/react": "^2.1.5",
         "@radix-ui/react-label": "^2.1.0",
         "axios": "^0.21.4",
         "class-variance-authority": "0.6.0",
