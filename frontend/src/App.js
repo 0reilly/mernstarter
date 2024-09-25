@@ -28,10 +28,12 @@ const App = () => {
           </div>
         </header>
 
-        <main className="flex-grow container mx-auto px-4 py-8">
-        <Routes>
-          <Route path="/" element={<Dashboard userId={userId} />} />
-        </Routes>
+        <main className="flex-grow">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <Routes>
+              <Route path="/" element={<Dashboard userId={userId} />} />
+            </Routes>
+          </div>
         </main>
         
         <footer className="bg-white border-t border-gray-200">
