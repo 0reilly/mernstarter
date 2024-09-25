@@ -8,6 +8,7 @@
         "axios": "^0.21.4",
         "class-variance-authority": "0.6.0",
         "clsx": "^2.1.1",
+        "lucide-react": "^0.446.0",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
         "react-router-dom": "^6.26.1",
