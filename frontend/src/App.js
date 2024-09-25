@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, NavLink } from 'react-router-dom';
 import Dashboard from './components/Dashboard';
+import { Home } from 'lucide-react';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
 
@@ -19,8 +20,11 @@ const App = () => {
                 <ul className="flex space-x-4">
                   <li>
                     <NavLink to="/" className={({ isActive }) => 
-                      `px-3 py-2 rounded-md text-sm font-medium ${isActive ? 'bg-gray-200 text-gray-900' : 'text-gray-700 hover:bg-gray-200'}`
-                    }>Dashboard</NavLink>
+                      `px-3 py-2 rounded-md text-sm font-medium flex items-center ${isActive ? 'bg-gray-200 text-gray-900' : 'text-gray-700 hover:bg-gray-200'}`
+                    }>
+                      <Home className="w-4 h-4 mr-2" />
+                      Dashboard
+                    </NavLink>
                   </li>
                 </ul>
               </nav>

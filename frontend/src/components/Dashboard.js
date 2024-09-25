@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { User } from 'lucide-react';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
 
@@ -26,7 +27,10 @@ const Dashboard = ({ userId }) => {
       <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-4 text-gray-800">User Information</h2>
+          <h2 className="text-xl font-semibold mb-4 text-gray-800 flex items-center">
+            <User className="w-5 h-5 mr-2" />
+            User Information
+          </h2>
           <p className="text-lg text-gray-600">userId: {userId}</p>
         </div>
         <div className="bg-white p-6 rounded-lg shadow-md">
