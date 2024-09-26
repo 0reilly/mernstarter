@@ -29,7 +29,7 @@ connection.once('open', () => {
     console.log('MongoDB database connection established successfully');
 });
 
-// Test endpoint
+// Test endpoint. Replace with your own endpoints.
 app.get('/api/test', (req, res) => {
   const userId = req.query.userId;
   res.json({ message: `Backend connection successful for user ${userId}!` });
