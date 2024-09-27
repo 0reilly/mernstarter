@@ -19,24 +19,26 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-mongoose.connect(MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
-
-const connection = mongoose.connection;
-connection.once('open', () => {
-    console.log('MongoDB database connection established successfully');
-});
-
 // Test endpoint. Replace with your own endpoints.
 app.get('/api/test', (req, res) => {
   const userId = req.query.userId;
+  if (!userId) {
+    return res.status(400).json({ error: 'userId is required' });
+  }
   res.json({ message: `Backend connection successful for user ${userId}!` });
 });
 
-app.listen(port, () => {
-    console.log(`Server is running on port: ${port}`);
-});
+const connectDB = async () => {
+  try {
+    await mongoose.connect(MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log('MongoDB database connection established successfully');
+  } catch (error) {
+    console.error('MongoDB connection error:', error);
+    process.exit(1);
+  }
+};
 
-module.exports = app;
+module.exports = { app, connectDB };
