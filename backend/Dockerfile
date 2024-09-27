@@ -14,6 +14,9 @@ RUN pnpm install
 # Copy the rest of the application code
 COPY . .
 
+# Run tests
+RUN pnpm test -- --detectOpenHandles --forceExit
+
 EXPOSE 5001
 
 CMD ["pnpm", "start"]

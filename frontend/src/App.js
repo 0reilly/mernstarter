@@ -3,10 +3,9 @@ import { BrowserRouter as Router, Route, Routes, NavLink } from 'react-router-do
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
 
-//simulated user ID
-const userId = localStorage.getItem('userId');
-
 const App = () => {
+  const userId = localStorage.getItem('userId');
+
   return (
     <Router>
       <div className="min-h-screen flex flex-col bg-gray-100">
@@ -36,7 +35,6 @@ const App = () => {
             </div>
           </div>
         </header>
-
         <main className="flex-grow container mx-auto px-4 py-8">
         <Routes>
           <Route path="/" element={
@@ -67,7 +65,6 @@ const App = () => {
           } />
         </Routes>
         </main>
-        
         <footer className="bg-white border-t border-gray-200">
           <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
             <p className="text-center text-sm text-gray-500">&copy; 2024 Replace this footer. All rights reserved.</p>
