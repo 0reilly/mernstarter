@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const { MongoMemoryServer } = require('mongodb-memory-server');
+let mongod;
 
 // Mock the mongoose connection
 jest.mock('mongoose', () => ({
@@ -21,13 +23,15 @@ global.console = {
 };
 
 // Global setup
-beforeAll(() => {
-  // This runs once before all tests
+beforeAll(async () => {
+  mongod = await MongoMemoryServer.create();
+  const uri = mongod.getUri();
+  process.env.MONGODB_URI = uri;
 });
 
 // Global teardown
-afterAll(() => {
-  // This runs once after all tests
+afterAll(async () => {
+  await mongod.stop();
 });
 
 // Reset mocks after each test
