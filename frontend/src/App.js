@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, NavLink } from 'react-router-dom';
-import Placeholder from './components/Placeholder';
+import Card from './components/Card';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
 
@@ -53,13 +53,13 @@ const App = () => {
             </div>
           } />
           <Route path="/feature1" element={
-            <Placeholder 
+            <Card 
               title="Feature 1 Placeholder" 
               description="This is a placeholder for Feature 1. Replace this component with your actual Feature 1 implementation." 
             />
           } />
           <Route path="/feature2" element={
-            <Placeholder 
+            <Card 
               title="Feature 2 Placeholder" 
               description="This is a placeholder for Feature 2. Replace this component with your actual Feature 2 implementation." 
             />

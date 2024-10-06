@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Placeholder = ({ title, description }) => {
+const Card = ({ title, description }) => {
   return (
     <div className="bg-white shadow rounded-lg p-6">
       <h2 className="text-xl font-semibold text-gray-900 mb-4">{title}</h2>
@@ -9,4 +9,4 @@ const Placeholder = ({ title, description }) => {
   );
 };
 
-export default Placeholder;
+export default Card;
