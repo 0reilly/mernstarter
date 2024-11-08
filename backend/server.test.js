@@ -1,17 +1,51 @@
 const request = require('supertest');
-const { app } = require('./server');
+const { app, connectDB } = require('./server');
+const mongoose = require('mongoose');
+const User = require('./model/User');
 
-describe('Server', () => {
-  it('should respond with a message for a valid userId', async () => {
-    const response = await request(app).get('/api/test?userId=testUser');
-    expect(response.status).toBe(200);
-    expect(response.body.message).toBe('Backend connection successful for user testUser!');
-  });
-
-  it('should respond with an error for missing userId', async () => {
-    const response = await request(app).get('/api/test');
-    expect(response.status).toBe(400);
-    expect(response.body.error).toBe('userId is required');
-  });
+beforeAll(async () => {
+  await connectDB();
+  await User.deleteMany({});
 });
 
+afterAll(async () => {
+  await mongoose.connection.close();
+});
+
+describe('Auth Routes', () => {
+  it('should signup a new user and return a token', async () => {
+    const res = await request(app)
+      .post('/api/auth/signup')
+      .send({ username: 'testuser', password: 'password123' });
+
+    expect(res.status).toBe(201);
+    expect(res.body).toHaveProperty('token');
+  });
+
+  it('should not signup with existing username', async () => {
+    const res = await request(app)
+      .post('/api/auth/signup')
+      .send({ username: 'testuser', password: 'password123' });
+
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('error', 'User already exists');
+  });
+
+  it('should login an existing user and return a token', async () => {
+    const res = await request(app)
+      .post('/api/auth/login')
+      .send({ username: 'testuser', password: 'password123' });
+
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveProperty('token');
+  });
+
+  it('should not login with incorrect credentials', async () => {
+    const res = await request(app)
+      .post('/api/auth/login')
+      .send({ username: 'testuser', password: 'wrongpassword' });
+
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('error', 'Invalid Credentials');
+  });
+});

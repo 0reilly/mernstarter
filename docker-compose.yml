@@ -20,6 +20,7 @@ services:
             - FRONTEND_URL=http://localhost:3001
             - MONGODB_URI=mongodb://mongo:27017/saas_db
             - CLIENT_URL=https://localhost:3001
+            - JWT_SECRET=your_jwt_secret
         depends_on:
             - mongo
 
