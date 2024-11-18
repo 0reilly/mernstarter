@@ -16,26 +16,31 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/todoap
 
 const corsOptions = {
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps, curl requests) only in development
-    if (!origin && process.env.NODE_ENV === 'development') {
+    // Allow requests with no origin (like mobile apps, curl requests)
+    if (!origin) {
       return callback(null, true);
     }
-    
-    const allowedOrigins = [
-      process.env.FRONTEND_URL,
-      process.env.PRODUCTION_URL
-    ].filter(Boolean);
 
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
+    try {
+      const url = new URL(origin);
+      
+      // Allow any localhost request regardless of port
+      if (url.hostname === 'localhost') {
+        return callback(null, true);
+      }
+
       callback(new Error('Not allowed by CORS'));
+    } catch (error) {
+      callback(new Error('Invalid origin'));
     }
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  optionsSuccessStatus: 200
+  exposedHeaders: ['Content-Length', 'X-Requested-With', 'Authorization'],
+  optionsSuccessStatus: 204,
+  preflightContinue: false,
+  maxAge: 86400 // 24 hours
 };
 
 app.use(cors(corsOptions));
