@@ -5,7 +5,7 @@ export const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [username, setUsername] = useState(() => localStorage.getItem('username'));
 
-  const updateUser = (newUsername, subscriptionStatus) => {
+  const updateUser = (newUsername) => {
     if (newUsername) {
       localStorage.setItem('username', newUsername);
       setUsername(newUsername);

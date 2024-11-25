@@ -6,6 +6,7 @@ import './tailwind.output.css';
 
 // Add event listener for username messages from parent application
 window.addEventListener('message', (event) => {
+  console.log('Received message:', event.data);
   if (event.data.type === 'SET_USERNAME') {
     localStorage.setItem('username', event.data.username);
   }
