@@ -5,8 +5,6 @@ const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
 const fs = require('fs');
 require('dotenv').config();
-const authRoutes = require('./routes/auth');
-const auth = require('./middleware/auth');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 
@@ -63,14 +61,6 @@ app.get('/api/test', (req, res) => {
     return res.status(400).json({ error: 'userId is required' });
   }
   res.json({ message: `Backend connection successful for user ${userId}!` });
-});
-
-// Use authentication routes
-app.use('/api/auth', authRoutes);
-
-// Example of a protected route
-app.get('/api/protected', auth, (req, res) => {
-  res.json({ message: `Hello User ${req.user}, this is a protected route!` });
 });
 
 const connectDB = async () => {

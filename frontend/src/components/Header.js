@@ -1,9 +1,8 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
+import { UserContext } from '../context/UserContext';
 
 const Header = () => {
-  const { username, logout } = useContext(AuthContext);
+  const { username, clearUser } = useContext(UserContext);
 
   return (
     <header className="bg-white shadow-sm">
@@ -11,30 +10,15 @@ const Header = () => {
         <div className="flex justify-between items-center py-4">
           <h1 className="text-2xl font-bold text-gray-900">My Application</h1>
           <nav>
-            {username ? (
+            {username && (
               <div className="flex items-center space-x-4">
                 <span className="text-gray-700">Hello, {username}</span>
                 <button
-                  onClick={logout}
+                  onClick={clearUser}
                   className="text-red-500 hover:underline"
                 >
-                  Logout
+                  Sign Out
                 </button>
-              </div>
-            ) : (
-              <div className="flex items-center space-x-4">
-                <Link
-                  to="/login"
-                  className="text-blue-500 hover:underline"
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/signup"
-                  className="text-green-500 hover:underline"
-                >
-                  Sign Up
-                </Link>
               </div>
             )}
           </nav>
