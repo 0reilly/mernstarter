@@ -6,6 +6,10 @@ const UserSchema = new mongoose.Schema({
     required: true,
     unique: true,
     minlength: 3,
+  },
+  isSubscribed: {
+    type: Boolean,
+    default: false
   }
 });
 
