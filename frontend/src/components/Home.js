@@ -2,20 +2,16 @@ import React, { useContext } from 'react';
 import { UserContext } from '../context/UserContext';
 
 const Home = () => {
-  const { username, isSubscribed } = useContext(UserContext);
+  const { username, isIframe } = useContext(UserContext);
 
   if (!username) {
     return (
       <div className="text-center">
-        <p>Please sign in to access this application.</p>
-      </div>
-    );
-  }
-
-  if (!isSubscribed) {
-    return (
-      <div className="text-center">
-        <p>Please subscribe to access this application.</p>
+        <p>
+          {isIframe 
+            ? "Waiting for username from parent application..."
+            : "Please sign in to access this application."}
+        </p>
       </div>
     );
   }
