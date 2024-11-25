@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { UserContext } from '../context/UserContext';
 
 const Home = () => {
-  const { username, isIframe } = useContext(UserContext);
+  const { username } = useContext(UserContext);
 
   if (!username) {
     return (
