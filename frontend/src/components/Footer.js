@@ -1,5 +1,6 @@
 import React from 'react';
 
+//ATTENTION:replace this boilerplate footer
 const Footer = () => {
   return (
     <footer className="bg-white border-t border-gray-200">

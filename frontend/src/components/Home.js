@@ -10,7 +10,7 @@ const Home = () => {
     const testBackendConnection = async () => {
       if (username) {
         try {
-          const response = await api.get(`/api/test?userId=${username}`);
+          const response = await api.get(`/api/test?userId=${username}&source=${isIframe ? 'iframe' : 'direct'}`);
           setConnectionStatus(response.data.message);
         } catch (error) {
           setConnectionStatus(`Error connecting to backend: ${error.message}`);

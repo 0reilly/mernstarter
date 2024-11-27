@@ -1,12 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const multer = require('multer');
-const upload = multer({ dest: 'uploads/' });
-const fs = require('fs');
 require('dotenv').config();
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const UserLog = require('./model/UserLog');
 
 const app = express();
 const port = process.env.PORT || 5001;
@@ -14,19 +12,15 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/todoap
 
 const corsOptions = {
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps, curl requests)
     if (!origin) {
       return callback(null, true);
     }
 
     try {
       const url = new URL(origin);
-      
-      // Allow any localhost request regardless of port
       if (url.hostname === 'localhost') {
         return callback(null, true);
       }
-
       callback(new Error('Not allowed by CORS'));
     } catch (error) {
       callback(new Error('Invalid origin'));
@@ -34,33 +28,61 @@ const corsOptions = {
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  exposedHeaders: ['Content-Length', 'X-Requested-With', 'Authorization'],
+  allowedHeaders: ['Content-Type'],
+  exposedHeaders: ['Content-Length', 'X-Requested-With'],
   optionsSuccessStatus: 204,
   preflightContinue: false,
-  maxAge: 86400 // 24 hours
+  maxAge: 86400
 };
 
 app.use(cors(corsOptions));
 app.use(express.json());
-
-// Security middleware
 app.use(helmet());
 
-// Rate limiting
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100 // limit each IP to 100 requests per windowMs
+  windowMs: 15 * 60 * 1000,
+  max: 100
 });
+
 app.use('/api/', limiter);
 
-// Test endpoint. Replace with your own endpoints.
-app.get('/api/test', (req, res) => {
+app.get('/api/test', async (req, res) => {
   const userId = req.query.userId;
+  const source = req.query.source || 'direct';
+
   if (!userId) {
     return res.status(400).json({ error: 'userId is required' });
   }
-  res.json({ message: `Backend connection successful for user ${userId}!` });
+
+  try {
+    await UserLog.create({
+      username: userId,
+      source: source
+    });
+
+    res.json({ 
+      message: `Backend connection successful for user ${userId}!`,
+      timestamp: new Date()
+    });
+  } catch (error) {
+    console.error('Error logging user access:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.get('/api/user-logs/:username', async (req, res) => {
+  try {
+    const logs = await UserLog.find({ 
+      username: req.params.username 
+    })
+    .sort({ timestamp: -1 })
+    .limit(10);
+    
+    res.json(logs);
+  } catch (error) {
+    console.error('Error fetching user logs:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 const connectDB = async () => {
