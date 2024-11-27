@@ -1,16 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../context/UserContext';
 import api from '../utils/api';
-import Input from '../components/ui/Input';
-import Select from '../components/ui/Select';
 
 const Home = () => {
   const { username, isIframe } = useContext(UserContext);
   const [connectionStatus, setConnectionStatus] = useState(null);
-  const [inputValue, setInputValue] = useState('');
-  const [selectedOption, setSelectedOption] = useState('');
 
-  //ATTENTION:replace this boilerplate code with the users request
   useEffect(() => {
     const testBackendConnection = async () => {
       if (username) {
@@ -24,7 +19,7 @@ const Home = () => {
     };
 
     testBackendConnection();
-  }, [username]);
+  }, [username, isIframe]);
 
   if (!username) {
     return (
@@ -38,78 +33,80 @@ const Home = () => {
     );
   }
 
-  //ATTENTION:replace this boilerplate code with the users request
   return (
     <div className="space-y-8">
-      {/* Welcome Section */}
+      {/* Welcome Section with Connection Status */}
       <div className="bg-white shadow rounded-lg p-6">
-        <h2 className="text-2xl font-semibold text-gray-900 mb-4">Welcome</h2>
+        <h2 className="text-2xl font-semibold text-gray-900 mb-4">Welcome to the Development Environment</h2>
         <p className="text-gray-600 mb-4">
-          Welcome to the application, {username}! Below are examples of our styled components.
+          Hello {username}! This is your interactive development environment. Use the chat interface to modify and test features before deployment.
         </p>
+        {connectionStatus && (
+          <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+            <p className="text-gray-600">{connectionStatus}</p>
+          </div>
+        )}
       </div>
 
-      {/* Form Elements Section */}
+      {/* Instructions Section */}
       <div className="bg-white shadow rounded-lg p-6">
-        <h3 className="text-xl font-semibold text-gray-900 mb-6">Form Elements</h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-6">How to Use This Environment</h3>
         
-        {/* Text Input */}
-        <div className="space-y-4 mb-6">
-          <Input
-            label="Standard Input"
-            placeholder="Type something..."
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-          />
-        </div>
+        <div className="space-y-6">
+          <div>
+            <h4 className="text-lg font-medium text-gray-900 mb-2">1. Making Changes</h4>
+            <p className="text-gray-600">
+              Use the chat interface to describe the changes you want to make. Be specific about:
+            </p>
+            <ul className="list-disc ml-6 mt-2 text-gray-600">
+              <li>Which component you want to modify</li>
+              <li>What functionality you want to add or change</li>
+              <li>Any specific styling preferences</li>
+            </ul>
+          </div>
 
-        {/* Select Dropdown */}
-        <div className="space-y-4 mb-6">
-          <Select
-            label="Select Menu"
-            value={selectedOption}
-            onChange={(e) => setSelectedOption(e.target.value)}
-            options={[
-              { value: '', label: 'Select an option' },
-              { value: '1', label: 'Option 1' },
-              { value: '2', label: 'Option 2' },
-              { value: '3', label: 'Option 3' }
-            ]}
-          />
-        </div>
+          <div>
+            <h4 className="text-lg font-medium text-gray-900 mb-2">2. Testing Features</h4>
+            <p className="text-gray-600">
+              All changes appear immediately in this preview environment. You can:
+            </p>
+            <ul className="list-disc ml-6 mt-2 text-gray-600">
+              <li>Test new features in real-time</li>
+              <li>Verify styling and responsiveness</li>
+              <li>Check component interactions</li>
+            </ul>
+          </div>
 
-        {/* Buttons */}
-        <div className="space-x-4">
-          <button className="inline-flex items-center px-6 py-2.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-150">
-            Primary Button
-          </button>
-          <button className="inline-flex items-center px-6 py-2.5 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-150">
-            Secondary Button
-          </button>
+          <div>
+            <h4 className="text-lg font-medium text-gray-900 mb-2">3. Best Practices</h4>
+            <ul className="list-disc ml-6 text-gray-600">
+              <li>Test one feature at a time</li>
+              <li>Verify changes across different screen sizes</li>
+              <li>Check for any console errors</li>
+              <li>Ensure all interactive elements work as expected</li>
+            </ul>
+          </div>
         </div>
       </div>
 
-      {/* Card Grid Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-white shadow rounded-lg p-6">
-          <h3 className="text-lg font-medium text-gray-900 mb-2">Card Title 1</h3>
-          <p className="text-gray-500">This is an example card with some sample content.</p>
-        </div>
-        <div className="bg-white shadow rounded-lg p-6">
-          <h3 className="text-lg font-medium text-gray-900 mb-2">Card Title 2</h3>
-          <p className="text-gray-500">Another example card with different content.</p>
+      {/* Example Section */}
+      <div className="bg-white shadow rounded-lg p-6">
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Example Commands</h3>
+        <div className="space-y-3">
+          <div className="bg-gray-50 rounded p-4">
+            <p className="text-sm font-medium text-gray-900">Add a new feature:</p>
+            <p className="text-sm text-gray-600">"Add a dark mode toggle to the header component"</p>
+          </div>
+          <div className="bg-gray-50 rounded p-4">
+            <p className="text-sm font-medium text-gray-900">Modify styling:</p>
+            <p className="text-sm text-gray-600">"Update the button styles to use rounded corners and a gradient background"</p>
+          </div>
+          <div className="bg-gray-50 rounded p-4">
+            <p className="text-sm font-medium text-gray-900">Add functionality:</p>
+            <p className="text-sm text-gray-600">"Create a modal component for displaying user notifications"</p>
+          </div>
         </div>
       </div>
-
-      {/* Status Section */}
-      {/*ATTENTION:replace this boilerplate code with the users request*/}
-      {connectionStatus && (
-        <div className="bg-gray-50 rounded-lg p-4">
-          <p className="text-sm text-gray-500">
-            Backend Status: {connectionStatus}
-          </p>
-        </div>
-      )}
     </div>
   );
 };

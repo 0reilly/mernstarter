@@ -5,6 +5,7 @@ const Header = () => {
   const { username } = useContext(UserContext);
 
   //ATTENTION:replace this boilerplate header
+  //ATTENTION: NEVER add a logout button, this is handled by the parent application
   return (
     <header className="bg-white shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
