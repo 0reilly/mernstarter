@@ -7,7 +7,7 @@ import api from '../utils/api';
 */
 const Home = () => {
   const { username, isIframe } = useContext(UserContext);
-  
+
   if (!username) {
     return (
       <div className="text-center">
@@ -24,9 +24,8 @@ const Home = () => {
   return (
     <div className="space-y-8">
       <div className="bg-white shadow rounded-lg p-6">
-        <h2 className="text-2xl font-semibold text-gray-900 mb-4">Welcome, {username}!</h2>
+        <h2 className="text-2xl font-semibold text-gray-900">Welcome, {username}!</h2>
       </div>
-      
     </div>
   );
 };
