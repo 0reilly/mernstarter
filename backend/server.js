@@ -46,30 +46,6 @@ const limiter = rateLimit({
 
 app.use('/api/', limiter);
 
-app.get('/api/test', async (req, res) => {
-  const userId = req.query.userId;
-  const source = req.query.source || 'direct';
-
-  if (!userId) {
-    return res.status(400).json({ error: 'userId is required' });
-  }
-
-  try {
-    await UserLog.create({
-      username: userId,
-      source: source
-    });
-
-    res.json({ 
-      message: `Backend connection successful for user ${userId}!`,
-      timestamp: new Date()
-    });
-  } catch (error) {
-    console.error('Error logging user access:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
 app.get('/api/user-logs/:username', async (req, res) => {
   try {
     const logs = await UserLog.find({ 
