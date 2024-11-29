@@ -2,6 +2,9 @@ import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../context/UserContext';
 import api from '../utils/api';
 
+/*
+  Replace this boilerplate code with your own implementation.
+*/
 const Home = () => {
   const { username, isIframe } = useContext(UserContext);
   const [connectionStatus, setConnectionStatus] = useState(null);
@@ -33,10 +36,12 @@ const Home = () => {
     );
   }
 
+  //REPLACE THIS BOILERPLATE CODE
   return (
     <div className="space-y-8">
       <div className="bg-white shadow rounded-lg p-6">
         <h2 className="text-2xl font-semibold text-gray-900 mb-4">Welcome, {username}!</h2>
+        {/* Connection Status REPLACE THIS BOILERPLATE CODE */}
         {connectionStatus && (
           <div className="mt-4 p-4 bg-gray-50 rounded-lg">
             <p className="text-gray-600">{connectionStatus}</p>
