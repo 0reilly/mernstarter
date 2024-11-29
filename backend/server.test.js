@@ -1,7 +1,7 @@
 const request = require('supertest');
 const { app, connectDB } = require('./server');
 const mongoose = require('mongoose');
-const UserLog = require('./model/UserLog');
+const UserLog = require('./models/UserLog');
 
 beforeAll(async () => {
   await connectDB();

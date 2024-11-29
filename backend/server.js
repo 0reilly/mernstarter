@@ -4,7 +4,7 @@ const cors = require('cors');
 require('dotenv').config();
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-const UserLog = require('./model/UserLog');
+const UserLog = require('./models/UserLog');
 
 const app = express();
 const port = process.env.PORT || 5001;
@@ -28,7 +28,7 @@ const corsOptions = {
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
   exposedHeaders: ['Content-Length', 'X-Requested-With'],
   optionsSuccessStatus: 204,
   preflightContinue: false,

@@ -6,7 +6,6 @@ const Home = () => {
   const { username, isIframe } = useContext(UserContext);
   const [connectionStatus, setConnectionStatus] = useState(null);
 
-  //REMOVE THIS BOILERPLATE CODE
   useEffect(() => {
     const testBackendConnection = async () => {
       if (username) {
@@ -34,22 +33,16 @@ const Home = () => {
     );
   }
 
-
-  //REMOVE THIS BOILERPLATE CODE
   return (
     <div className="space-y-8">
       <div className="bg-white shadow rounded-lg p-6">
-        <h2 className="text-2xl font-semibold text-gray-900 mb-4">Welcome to the Development Environment</h2>
-        <p className="text-gray-600 mb-4">
-          Hello {username}! This is your interactive development environment. Use the chat interface to modify and test features before deployment.
-        </p>
+        <h2 className="text-2xl font-semibold text-gray-900 mb-4">Welcome, {username}!</h2>
         {connectionStatus && (
           <div className="mt-4 p-4 bg-gray-50 rounded-lg">
             <p className="text-gray-600">{connectionStatus}</p>
           </div>
         )}
       </div>
-
       
     </div>
   );
