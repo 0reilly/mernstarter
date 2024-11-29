@@ -15,10 +15,11 @@ RUN pnpm install
 COPY . .
 
 ENV NODE_OPTIONS=--openssl-legacy-provider
-
-RUN pnpm run build
+ENV NODE_OPTIONS="--max-old-space-size=4096 --openssl-legacy-provider"
 
 RUN pnpm run build:css
+
+RUN pnpm run build
 
 EXPOSE 3001
 
