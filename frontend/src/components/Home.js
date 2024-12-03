@@ -1,12 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { UserContext } from '../context/UserContext';
-import api from '../utils/api';
+import Input from './ui/Input';
 
-/*
-  Replace this boilerplate code with your own implementation.
-*/
 const Home = () => {
   const { username, isIframe } = useContext(UserContext);
+  const [testInput, setTestInput] = useState('');
 
   if (!username) {
     return (
@@ -20,11 +18,25 @@ const Home = () => {
     );
   }
 
-  //REPLACE THIS BOILERPLATE CODE
   return (
     <div className="space-y-8">
       <div className="bg-white shadow rounded-lg p-6">
-        <h2 className="text-2xl font-semibold text-gray-900">Welcome, {username}!</h2>
+        <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+          Welcome to the application, {username}!
+        </h2>
+        <div className="max-w-md">
+          <Input
+            label="Test Input"
+            value={testInput}
+            onChange={(e) => setTestInput(e.target.value)}
+            placeholder="Type something to test the styling..."
+          />
+          {testInput && (
+            <p className="mt-2 text-sm text-gray-600">
+              You typed: {testInput}
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );

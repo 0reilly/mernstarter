@@ -10,6 +10,8 @@ const app = express();
 const port = process.env.PORT || 5001;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/todoapp';
 
+mongoose.set('strictQuery', false);
+
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin) {
@@ -46,6 +48,27 @@ const limiter = rateLimit({
 
 app.use('/api/', limiter);
 
+app.get('/api/test', async (req, res) => {
+  const { userId, source } = req.query;
+  
+  if (!userId) {
+    return res.status(400).json({ error: 'userId is required' });
+  }
+
+  try {
+    await UserLog.create({
+      username: userId,
+      source: source || 'web'
+    });
+
+    res.status(200).json({
+      message: `Backend connection successful for user ${userId}!`
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 app.get('/api/user-logs/:username', async (req, res) => {
   try {
     const logs = await UserLog.find({ 
@@ -56,7 +79,6 @@ app.get('/api/user-logs/:username', async (req, res) => {
     
     res.json(logs);
   } catch (error) {
-    console.error('Error fetching user logs:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });

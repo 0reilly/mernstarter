@@ -12,7 +12,12 @@ describe('Home component', () => {
       </UserContext.Provider>
     );
 
-    expect(screen.getByText(/Welcome to the application, testuser!/i)).toBeInTheDocument();
+    const welcomeMessage = screen.getByText((content, element) => {
+      return content.includes('Welcome to the application') && 
+             content.includes('testuser');
+    });
+    
+    expect(welcomeMessage).toBeInTheDocument();
   });
 
   it('renders waiting message when no username is present', () => {

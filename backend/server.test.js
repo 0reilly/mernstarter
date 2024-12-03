@@ -30,6 +30,9 @@ describe('API Endpoints', () => {
     expect(res.status).toBe(200);
     expect(res.body.message).toBe('Backend connection successful for user testuser!');
     
+    // Wait a bit for the database operation to complete
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
     // Verify log was created
     const logs = await UserLog.find({ username: 'testuser' });
     expect(logs).toHaveLength(1);
