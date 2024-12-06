@@ -1,60 +1,28 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "axios": "1.7.7",
-    "class-variance-authority": "0.7.0",
-    "clsx": "2.1.1",
-    "jest": "^29.7.0",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
-    "react-router-dom": "6.27.0",
-    "react-scripts": "5.0.1",
-    "tailwind-merge": "2.5.4",
-    "tailwindcss-animate": "1.0.7"
-  },
   "scripts": {
     "start": "PORT=3001 react-scripts start",
     "build": "NODE_ENV=production react-scripts build",
+    "test": "jest --config jest.config.js",
+    "test:watch": "jest --config jest.config.js --watch",
     "eject": "react-scripts eject",
-    "build:css": "NODE_ENV=production tailwindcss -i src/index.css -o src/tailwind.output.css",
-    "test": "jest",
-    "test:watch": "jest --watch"
+    "build:css": "NODE_ENV=production tailwindcss -i src/index.css -o src/tailwind.output.css"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "dependencies": {
+    "axios": "^1.7.7",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.27.0"
   },
   "devDependencies": {
-    "@babel/core": "7.25.9",
-    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.18.6",
-    "@babel/plugin-proposal-optional-chaining": "^7.21.0",
-    "@babel/plugin-proposal-private-property-in-object": "7.21.11",
-    "@babel/preset-env": "7.25.9",
-    "@babel/preset-react": "7.25.9",
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^16.0.1",
-    "@testing-library/react-hooks": "^8.0.1",
-    "@testing-library/user-event": "^14.5.2",
-    "autoprefixer": "10.4.20",
+    "@babel/core": "^7.25.9",
+    "@babel/preset-env": "^7.25.9",
+    "@babel/preset-react": "^7.25.9",
+    "@testing-library/jest-dom": "^6.1.4",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.5.1",
     "babel-jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0",
-    "postcss": "8.4.47",
-    "tailwindcss": "3.4.14"
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
   }
 }
