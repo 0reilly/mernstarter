@@ -4,7 +4,8 @@ const cors = require('cors');
 require('dotenv').config();
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-const UserLog = require('./models/UserLog');
+const routes = require('./routes');
+const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
 const port = process.env.PORT || 5001;
@@ -37,6 +38,7 @@ const corsOptions = {
   maxAge: 86400
 };
 
+// Middleware
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(helmet());
@@ -48,40 +50,11 @@ const limiter = rateLimit({
 
 app.use('/api/', limiter);
 
-app.get('/api/test', async (req, res) => {
-  const { userId, source } = req.query;
-  
-  if (!userId) {
-    return res.status(400).json({ error: 'userId is required' });
-  }
+// Mount routes
+app.use('/', routes);
 
-  try {
-    await UserLog.create({
-      username: userId,
-      source: source || 'web'
-    });
-
-    res.status(200).json({
-      message: `Backend connection successful for user ${userId}!`
-    });
-  } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
-app.get('/api/user-logs/:username', async (req, res) => {
-  try {
-    const logs = await UserLog.find({ 
-      username: req.params.username 
-    })
-    .sort({ timestamp: -1 })
-    .limit(10);
-    
-    res.json(logs);
-  } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
+// Error handling middleware
+app.use(errorHandler);
 
 const connectDB = async () => {
   try {
