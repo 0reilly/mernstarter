@@ -18,8 +18,7 @@ router.post('/test', async (req, res) => {
             model: "gpt-4o-mini",
             messages: [
                 { role: "user", content: prompt }
-            ],
-            max_tokens: 150
+            ]
         });
 
         res.json({
