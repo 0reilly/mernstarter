@@ -1,13 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const OpenAI = require('openai');
-//get openai api key from .env
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-const openai = new OpenAI(OPENAI_API_KEY);
 
-// Test endpoint for OpenAI
+// Move OpenAI initialization inside the route handler
 router.post('/test', async (req, res) => {
     try {
+        const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+        
+        if (!OPENAI_API_KEY) {
+            return res.status(500).json({ error: 'OpenAI API key is not configured' });
+        }
+
+        const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
         const { prompt } = req.body;
         
         if (!prompt) {
@@ -15,7 +19,7 @@ router.post('/test', async (req, res) => {
         }
 
         const completion = await openai.chat.completions.create({
-            model: "gpt-4o-mini",
+            model: "gpt-4-mini",
             messages: [
                 { role: "user", content: prompt }
             ]
