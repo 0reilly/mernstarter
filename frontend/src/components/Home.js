@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../context/UserContext';
 import Input from './ui/Input';
 import api from '../utils/api';
-import { FaUser, FaExclamationCircle, FaCheckCircle, FaClock, FaKeyboard } from 'react-icons/fa';
+import { FaUser, FaExclamationCircle, FaCheckCircle, FaClock, FaKeyboard, FaRobot } from 'react-icons/fa';
 
 /*
   Replace this boilerplate code with your own implementation.
@@ -13,6 +13,9 @@ const Home = () => {
   const [backendMessage, setBackendMessage] = useState('');
   const [userLogs, setUserLogs] = useState([]);
   const [error, setError] = useState('');
+  const [aiPrompt, setAiPrompt] = useState('');
+  const [aiResponse, setAiResponse] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const testBackendConnection = async () => {
@@ -38,6 +41,23 @@ const Home = () => {
 
     testBackendConnection();
   }, [username, isIframe]);
+
+  const handleAiTest = async () => {
+    if (!aiPrompt) return;
+    
+    setIsLoading(true);
+    setError('');
+    setAiResponse('');
+    
+    try {
+      const response = await api.post('/api/ai/test', { prompt: aiPrompt });
+      setAiResponse(response.data.response);
+    } catch (err) {
+      setError('Failed to get AI response: ' + (err.response?.data?.error || err.message));
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   if (!username) {
     return (
@@ -109,6 +129,40 @@ const Home = () => {
             </div>
           </div>
         )}
+
+        <div className="mt-8 border-t pt-6">
+          <h3 className="text-lg font-medium text-gray-900 mb-4 flex items-center gap-2">
+            <FaRobot className="text-blue-500" />
+            Test OpenAI Integration
+          </h3>
+          <div className="max-w-md space-y-4">
+            <Input
+              label={
+                <span className="flex items-center gap-2">
+                  <FaKeyboard className="text-gray-400" />
+                  Enter your prompt
+                </span>
+              }
+              value={aiPrompt}
+              onChange={(e) => setAiPrompt(e.target.value)}
+              placeholder="Type your prompt for OpenAI..."
+            />
+            <button
+              onClick={handleAiTest}
+              disabled={isLoading || !aiPrompt}
+              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2"
+            >
+              <FaRobot />
+              {isLoading ? 'Processing...' : 'Send to AI'}
+            </button>
+            {aiResponse && (
+              <div className="bg-gray-50 rounded-md p-4 mt-4">
+                <p className="text-sm text-gray-700 whitespace-pre-wrap">{aiResponse}</p>
+              </div>
+            )}
+          </div>
+        </div>
+
       </div>
     </div>
   );

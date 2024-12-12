@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const userLogsRoutes = require('./userLogs');
+const aiRoutes = require('./ai');
 
 // Mount routes
 router.use('/api', userLogsRoutes);
+router.use('/api/ai', aiRoutes);
 
 // Health check endpoint
 router.get('/health', (req, res) => {
