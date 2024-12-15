@@ -2,10 +2,15 @@ import React, { useContext } from 'react';
 import { UserContext } from '../context/UserContext';
 
 const Header = () => {
-  const { username } = useContext(UserContext);
+  const { username, clearUser } = useContext(UserContext);
 
-  //ATTENTION:replace this boilerplate header
-  //ATTENTION: NEVER add a logout button, this is handled by the parent application
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    clearUser();
+    window.location.reload();
+  };
+
   return (
     <header className="bg-white shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -13,8 +18,14 @@ const Header = () => {
           <h1 className="text-2xl font-bold text-gray-900">Replace this header with the name of your application</h1>
           <nav>
             {username && (
-              <div className="flex items-center">
+              <div className="flex items-center gap-4">
                 <span className="text-gray-700">Hello, {username}</span>
+                <button
+                  onClick={handleLogout}
+                  className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors"
+                >
+                  Logout
+                </button>
               </div>
             )}
           </nav>
