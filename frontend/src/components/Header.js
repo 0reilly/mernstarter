@@ -5,10 +5,9 @@ const Header = () => {
   const { username, clearUser } = useContext(UserContext);
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('username');
     clearUser();
-    window.location.reload();
+    localStorage.clear();
+    window.location.href = '/';
   };
 
   return (
