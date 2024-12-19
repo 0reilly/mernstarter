@@ -6,8 +6,6 @@ const Header = () => {
 
   const handleLogout = () => {
     clearUser();
-    localStorage.clear();
-    window.location.href = '/';
   };
 
   return (
