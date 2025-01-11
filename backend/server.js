@@ -41,18 +41,24 @@ const corsOptions = {
 // Middleware
 app.use(cors(corsOptions));
 app.use(express.json());
+
+// Custom middleware to add CSP headers
+app.use((req, res, next) => {
+  res.setHeader(
+    'Content-Security-Policy',
+    "frame-ancestors *; " +
+    "default-src 'self'; " +
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval'; " +
+    "style-src 'self' 'unsafe-inline'; " +
+    "connect-src 'self' https: http:; " +
+    "img-src 'self' data: https: http:; " +
+    "font-src 'self' https: data:;"
+  );
+  next();
+});
+
 app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
-      frameAncestors: ['*'],
-      connectSrc: ["'self'", 'https:', 'http:'],
-      imgSrc: ["'self'", 'data:', 'https:', 'http:'],
-      fontSrc: ["'self'", 'https:', 'data:']
-    }
-  },
+  contentSecurityPolicy: false, // Disable helmet's CSP as we're handling it manually
   frameguard: false // Disable X-Frame-Options to let CSP handle it
 }));
 
