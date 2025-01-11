@@ -19,15 +19,18 @@ const corsOptions = {
       return callback(null, true);
     }
 
-    try {
-      const url = new URL(origin);
-      if (url.hostname === 'localhost') {
-        return callback(null, true);
-      }
-      callback(new Error('Not allowed by CORS'));
-    } catch (error) {
-      callback(new Error('Invalid origin'));
+    const allowedOrigins = [
+      'http://localhost:3000',
+      'http://localhost:3001',
+      'https://saas-quick.com',
+      'https://www.saas-quick.com'
+    ];
+
+    if (allowedOrigins.includes(origin) || origin.endsWith('saas-quick.com')) {
+      return callback(null, true);
     }
+    
+    callback(new Error('Not allowed by CORS'));
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
