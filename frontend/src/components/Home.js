@@ -22,15 +22,8 @@ const Home = () => {
       if (username) {
         setError('');
         try {
-          // Log authentication details
-          const token = localStorage.getItem('token');
-          console.log('Current state:', {
-            username,
-            isIframe,
-            hasToken: !!token,
-            tokenFirstChars: token ? token.substring(0, 20) + '...' : 'no token',
-            apiBaseUrl: api.defaults.baseURL
-          });
+          console.log('Testing backend connection for user:', username);
+          console.log('API base URL:', api.defaults.baseURL);
           
           // Test backend connection
           const response = await api.get('/api/test', {
@@ -47,21 +40,15 @@ const Home = () => {
           console.log('User logs response:', logsResponse.data);
           setUserLogs(logsResponse.data);
         } catch (err) {
-          console.error('Backend connection error:', {
+          console.error('Backend connection error:', err);
+          console.error('Error details:', {
             message: err.message,
+            response: err.response,
             status: err.response?.status,
-            statusText: err.response?.statusText,
-            data: err.response?.data,
-            headers: err.response?.headers
+            data: err.response?.data
           });
           setError('Failed to connect to backend: ' + (err.response?.data?.error || err.message));
         }
-      } else {
-        console.log('No username available yet. Current state:', {
-          username,
-          isIframe,
-          hasToken: !!localStorage.getItem('token')
-        });
       }
     };
 
