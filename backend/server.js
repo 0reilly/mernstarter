@@ -41,7 +41,20 @@ const corsOptions = {
 // Middleware
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      frameAncestors: ['*'],
+      connectSrc: ["'self'", 'https:', 'http:'],
+      imgSrc: ["'self'", 'data:', 'https:', 'http:'],
+      fontSrc: ["'self'", 'https:', 'data:']
+    }
+  },
+  frameguard: false // Disable X-Frame-Options to let CSP handle it
+}));
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
