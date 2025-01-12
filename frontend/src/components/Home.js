@@ -44,18 +44,14 @@ const Home = () => {
           const response = await api.get('/test', {
             params: {
               userId: username,
-              source: isIframe ? 'iframe' : 'direct',
-              appId,
-              mode
+              source: isIframe ? 'iframe' : 'direct'
             }
           });
           console.log('Backend response:', response.data);
           setBackendMessage(response.data.message);
 
           // Fetch user logs
-          const logsResponse = await api.get(`/user-logs/${username}`, {
-            params: { appId, mode }
-          });
+          const logsResponse = await api.get(`/user-logs/${username}`);
           console.log('User logs response:', logsResponse.data);
           setUserLogs(logsResponse.data);
         } catch (err) {
@@ -86,9 +82,7 @@ const Home = () => {
     
     try {
       const response = await api.post('/ai/test', { 
-        prompt: aiPrompt,
-        appId,
-        mode
+        prompt: aiPrompt
       });
       setAiResponse(response.data.response);
     } catch (err) {

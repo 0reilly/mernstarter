@@ -15,18 +15,6 @@ const getBackendUrl = () => {
 
   // For production, use the current path to determine the backend URL
   const protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
-  const pathname = window.location.pathname;
-  
-  // Extract mode (preview/live) and projectId from the path
-  const pathParts = pathname.split('/');
-  const mode = pathParts.includes('preview') ? 'preview' : 'live';
-  const appIndex = pathParts.indexOf('app');
-  const projectId = appIndex !== -1 ? pathParts[appIndex + 1] : null;
-
-  if (projectId) {
-    return `${protocol}//${window.location.hostname}/${mode}/app/${projectId}`;
-  }
-
   return `${protocol}//${window.location.hostname}`;
 };
 
@@ -49,9 +37,18 @@ api.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
 
-    // Always prefix with /api unless it's already there
-    if (!config.url.startsWith('/api')) {
-      config.url = `/api${config.url}`;
+    // Get the current path parts
+    const pathname = window.location.pathname;
+    const pathParts = pathname.split('/');
+    const mode = pathParts.includes('preview') ? 'preview' : 'live';
+    const appIndex = pathParts.indexOf('app');
+    const projectId = appIndex !== -1 ? pathParts[appIndex + 1] : null;
+
+    // Construct the full URL with mode and projectId
+    if (projectId && !config.url.includes('/preview/') && !config.url.includes('/live/')) {
+      config.url = `/${mode}/app/${projectId}/api${config.url.startsWith('/') ? config.url : '/' + config.url}`;
+    } else if (!config.url.startsWith('/api')) {
+      config.url = `/api${config.url.startsWith('/') ? config.url : '/' + config.url}`;
     }
 
     console.log('Making API request to:', `${BASE_URL}${config.url}`);
