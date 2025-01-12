@@ -82,7 +82,8 @@ const Home = () => {
     
     try {
       const response = await api.post('/ai/test', { 
-        prompt: aiPrompt
+        prompt: aiPrompt,
+        userId: username
       });
       setAiResponse(response.data.response);
     } catch (err) {
