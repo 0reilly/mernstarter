@@ -46,7 +46,9 @@ api.interceptors.request.use(
 
     // Construct the full URL with mode and projectId
     if (projectId && !config.url.includes('/preview/') && !config.url.includes('/live/')) {
-      config.url = `/${mode}/app/${projectId}/api${config.url.startsWith('/') ? config.url : '/' + config.url}`;
+      // Add mode and projectId to the query parameters instead of the path
+      const separator = config.url.includes('?') ? '&' : '?';
+      config.url = `/api${config.url.startsWith('/') ? config.url : '/' + config.url}${separator}mode=${mode}&projectId=${projectId}`;
     } else if (!config.url.startsWith('/api')) {
       config.url = `/api${config.url.startsWith('/') ? config.url : '/' + config.url}`;
     }
