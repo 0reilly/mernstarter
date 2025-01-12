@@ -46,9 +46,8 @@ api.interceptors.request.use(
 
     // Construct the full URL with mode and projectId
     if (projectId && !config.url.includes('/preview/') && !config.url.includes('/live/')) {
-      // Add mode and projectId to the query parameters instead of the path
-      const separator = config.url.includes('?') ? '&' : '?';
-      config.url = `/api${config.url.startsWith('/') ? config.url : '/' + config.url}${separator}mode=${mode}&projectId=${projectId}`;
+      // Use /preview/backend/{projectId}/api for API requests
+      config.url = `/${mode}/backend/${projectId}/api${config.url.startsWith('/') ? config.url : '/' + config.url}`;
     } else if (!config.url.startsWith('/api')) {
       config.url = `/api${config.url.startsWith('/') ? config.url : '/' + config.url}`;
     }
