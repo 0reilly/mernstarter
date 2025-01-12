@@ -13,8 +13,20 @@ const getBackendUrl = () => {
     return `http://localhost:${backendPort}`;
   }
 
-  // For production, use the same protocol and domain as the frontend
+  // For production, use the current path to determine the backend URL
   const protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
+  const pathname = window.location.pathname;
+  
+  // Extract mode (preview/live) and projectId from the path
+  const pathParts = pathname.split('/');
+  const mode = pathParts.includes('preview') ? 'preview' : 'live';
+  const appIndex = pathParts.indexOf('app');
+  const projectId = appIndex !== -1 ? pathParts[appIndex + 1] : null;
+
+  if (projectId) {
+    return `${protocol}//${window.location.hostname}/${mode}/app/${projectId}`;
+  }
+
   return `${protocol}//${window.location.hostname}`;
 };
 
@@ -29,13 +41,20 @@ const api = axios.create({
   }
 });
 
-// Add request interceptor to include token
+// Add request interceptor to include token and handle path prefixing
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+
+    // Always prefix with /api unless it's already there
+    if (!config.url.startsWith('/api')) {
+      config.url = `/api${config.url}`;
+    }
+
+    console.log('Making API request to:', `${BASE_URL}${config.url}`);
     return config;
   },
   (error) => {

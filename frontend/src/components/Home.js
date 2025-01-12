@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { useParams, useLocation } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 import Input from './ui/Input';
 import api from '../utils/api';
@@ -6,6 +7,8 @@ import { FaUser, FaExclamationCircle, FaCheckCircle, FaClock, FaKeyboard, FaRobo
 
 const Home = () => {
   const { username, isIframe } = useContext(UserContext);
+  const { appId } = useParams();
+  const location = useLocation();
   const [testInput, setTestInput] = useState('');
   const [backendMessage, setBackendMessage] = useState('');
   const [userLogs, setUserLogs] = useState([]);
@@ -14,7 +17,16 @@ const Home = () => {
   const [aiResponse, setAiResponse] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  console.log('Home component rendered:', { username, isIframe });
+  const mode = location.pathname.includes('preview') ? 'preview' : 'live';
+
+  console.log('Home component rendered:', { 
+    username, 
+    isIframe,
+    appId,
+    mode,
+    pathname: location.pathname,
+    baseURL: api.defaults.baseURL
+  });
 
   useEffect(() => {
     const testBackendConnection = async () => {
@@ -24,19 +36,26 @@ const Home = () => {
           console.log('Testing backend connection for user:', username);
           console.log('API base URL:', api.defaults.baseURL);
           console.log('Is in iframe:', isIframe);
+          console.log('App ID:', appId);
+          console.log('Mode:', mode);
+          console.log('Current path:', location.pathname);
           
           // Test backend connection
-          const response = await api.get('/api/test', {
+          const response = await api.get('/test', {
             params: {
               userId: username,
-              source: isIframe ? 'iframe' : 'direct'
+              source: isIframe ? 'iframe' : 'direct',
+              appId,
+              mode
             }
           });
           console.log('Backend response:', response.data);
           setBackendMessage(response.data.message);
 
           // Fetch user logs
-          const logsResponse = await api.get(`/api/user-logs/${username}`);
+          const logsResponse = await api.get(`/user-logs/${username}`, {
+            params: { appId, mode }
+          });
           console.log('User logs response:', logsResponse.data);
           setUserLogs(logsResponse.data);
         } catch (err) {
@@ -56,7 +75,7 @@ const Home = () => {
 
     console.log('Running testBackendConnection effect');
     testBackendConnection();
-  }, [username, isIframe]);
+  }, [username, isIframe, appId, mode, location.pathname]);
 
   const handleAiTest = async () => {
     if (!aiPrompt) return;
@@ -66,7 +85,11 @@ const Home = () => {
     setAiResponse('');
     
     try {
-      const response = await api.post('/api/ai/test', { prompt: aiPrompt });
+      const response = await api.post('/ai/test', { 
+        prompt: aiPrompt,
+        appId,
+        mode
+      });
       setAiResponse(response.data.response);
     } catch (err) {
       setError('Failed to get AI response: ' + (err.response?.data?.error || err.message));
