@@ -8,27 +8,39 @@ export const UserProvider = ({ children }) => {
   const [isIframe] = useState(isInIframe());
 
   useEffect(() => {
-    if (isIframe) {
-      // Setup iframe message listener
-      const cleanup = setupIframeMessageListener((newUsername) => {
-        if (newUsername) {
-          localStorage.setItem('username', newUsername);
-          setUsername(newUsername);
-        }
-      });
+    // Always listen for messages, whether in iframe or not
+    const handleMessage = (event) => {
+      console.log('UserContext received message:', event.data);
+      if (event.data.type === 'SET_USERNAME' && event.data.username) {
+        console.log('Setting username from message:', event.data.username);
+        localStorage.setItem('username', event.data.username);
+        setUsername(event.data.username);
+      }
+    };
 
-      return cleanup;
+    window.addEventListener('message', handleMessage);
+    
+    // If we're in an iframe, notify the parent that we're ready
+    if (isIframe) {
+      console.log('In iframe, sending ready message');
+      window.parent.postMessage({ type: 'IFRAME_READY' }, '*');
     }
+
+    return () => {
+      window.removeEventListener('message', handleMessage);
+    };
   }, [isIframe]);
 
   const updateUser = (newUsername) => {
     if (newUsername) {
+      console.log('Updating username:', newUsername);
       localStorage.setItem('username', newUsername);
       setUsername(newUsername);
     }
   };
 
   const clearUser = () => {
+    console.log('Clearing user');
     localStorage.removeItem('username');
     setUsername(null);
   };

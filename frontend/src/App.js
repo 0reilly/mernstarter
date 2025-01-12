@@ -14,6 +14,7 @@ const App = () => {
           <main className="flex-grow container mx-auto px-4 py-8">
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/preview/app/:appId" element={<Home />} />
             </Routes>
           </main>
           <Footer />

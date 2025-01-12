@@ -4,9 +4,6 @@ import Input from './ui/Input';
 import api from '../utils/api';
 import { FaUser, FaExclamationCircle, FaCheckCircle, FaClock, FaKeyboard, FaRobot } from 'react-icons/fa';
 
-/*
-  Replace this boilerplate code with your own implementation.
-*/
 const Home = () => {
   const { username, isIframe } = useContext(UserContext);
   const [testInput, setTestInput] = useState('');
@@ -17,6 +14,8 @@ const Home = () => {
   const [aiResponse, setAiResponse] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  console.log('Home component rendered:', { username, isIframe });
+
   useEffect(() => {
     const testBackendConnection = async () => {
       if (username) {
@@ -24,6 +23,7 @@ const Home = () => {
         try {
           console.log('Testing backend connection for user:', username);
           console.log('API base URL:', api.defaults.baseURL);
+          console.log('Is in iframe:', isIframe);
           
           // Test backend connection
           const response = await api.get('/api/test', {
@@ -49,9 +49,12 @@ const Home = () => {
           });
           setError('Failed to connect to backend: ' + (err.response?.data?.error || err.message));
         }
+      } else {
+        console.log('No username available yet');
       }
     };
 
+    console.log('Running testBackendConnection effect');
     testBackendConnection();
   }, [username, isIframe]);
 
@@ -73,6 +76,7 @@ const Home = () => {
   };
 
   if (!username) {
+    console.log('Rendering waiting state');
     return (
       <div className="text-center">
         <p className="text-gray-600 flex items-center justify-center gap-2">
@@ -85,6 +89,7 @@ const Home = () => {
     );
   }
 
+  console.log('Rendering main content');
   return (
     <div className="space-y-8">
       <div className="bg-white shadow rounded-lg p-6">
@@ -175,7 +180,6 @@ const Home = () => {
             )}
           </div>
         </div>
-
       </div>
     </div>
   );
