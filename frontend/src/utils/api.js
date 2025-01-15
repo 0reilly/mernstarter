@@ -15,31 +15,20 @@ const getBackendUrl = () => {
 
   // For production, use the current path to determine the backend URL
   const protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
-  const basePath = process.env.REACT_APP_BASE_PATH || '';
-  
-  // When in an iframe, use the parent's origin
-  const hostname = window.parent !== window ? 
-    new URL(document.referrer).hostname : 
-    window.location.hostname;
-
-  // Use the base path from environment if available
-  if (basePath) {
-    return `${protocol}//${hostname}${basePath}`;
-  }
-
-  // Extract mode (preview/live) and projectId from the path
   const pathname = window.location.pathname;
+  
+  // Extract mode (preview/live) and projectId from the path
   const pathParts = pathname.split('/');
   const mode = pathParts.includes('preview') ? 'preview' : 'live';
   const appIndex = pathParts.indexOf('app');
   const projectId = appIndex !== -1 ? pathParts[appIndex + 1] : null;
 
-  // The mode and projectId are already in the URL path
+  // The mode and projectId are already in the URL path, so we don't need to add them again
   if (projectId) {
-    return `${protocol}//${hostname}/${mode}/app/${projectId}`;
+    return `${protocol}//${window.location.hostname}/${mode}/app/${projectId}`;
   }
 
-  return `${protocol}//${hostname}`;
+  return `${protocol}//${window.location.hostname}`;
 };
 
 // Export the base URL for other uses (like WebSocket connections)
@@ -66,14 +55,7 @@ api.interceptors.request.use(
       config.url = `/api${config.url}`;
     }
 
-    // Log the request details
-    console.log('Making API request:', {
-      url: `${BASE_URL}${config.url}`,
-      isIframe: window.parent !== window,
-      origin: window.location.origin,
-      parentOrigin: document.referrer
-    });
-    
+    console.log('Making API request to:', `${BASE_URL}${config.url}`);
     return config;
   },
   (error) => {
