@@ -10,6 +10,9 @@ const errorHandler = require('./middleware/errorHandler');
 const app = express();
 const port = process.env.PORT || 5001;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/todoapp';
+const BASE_PATH = process.env.BASE_PATH || '';
+const PREVIEW_MODE = process.env.PREVIEW_MODE === 'true';
+const CORS_ORIGIN = process.env.CORS_ORIGIN || 'https://saas-quick.com';
 
 mongoose.set('strictQuery', false);
 
@@ -25,6 +28,11 @@ const corsOptions = {
       'https://saas-quick.com',
       'https://www.saas-quick.com'
     ];
+
+    // Allow the configured CORS_ORIGIN
+    if (!allowedOrigins.includes(CORS_ORIGIN)) {
+      allowedOrigins.push(CORS_ORIGIN);
+    }
 
     if (allowedOrigins.includes(origin) || origin.endsWith('saas-quick.com')) {
       return callback(null, true);
@@ -47,9 +55,23 @@ app.use(express.json());
 
 // Custom middleware to add CSP headers
 app.use((req, res, next) => {
+  // Get the referrer's origin if available
+  const refererOrigin = req.get('Referer') ? new URL(req.get('Referer')).origin : '';
+  
+  // Build frame-ancestors directive
+  const frameAncestors = [
+    "'self'",
+    CORS_ORIGIN,
+    'https://saas-quick.com',
+    'https://www.saas-quick.com'
+  ];
+  if (refererOrigin && !frameAncestors.includes(refererOrigin)) {
+    frameAncestors.push(refererOrigin);
+  }
+
   res.setHeader(
     'Content-Security-Policy',
-    "frame-ancestors *; " +
+    `frame-ancestors ${frameAncestors.join(' ')}; ` +
     "default-src 'self'; " +
     "script-src 'self' 'unsafe-inline' 'unsafe-eval'; " +
     "style-src 'self' 'unsafe-inline'; " +
@@ -57,6 +79,9 @@ app.use((req, res, next) => {
     "img-src 'self' data: https: http:; " +
     "font-src 'self' https: data:;"
   );
+
+  // Set additional security headers for iframe support
+  res.setHeader('X-Frame-Options', 'ALLOWALL');
   next();
 });
 
@@ -70,10 +95,11 @@ const limiter = rateLimit({
   max: 100
 });
 
-app.use('/api/', limiter);
+// Apply rate limiter to API routes
+app.use(`${BASE_PATH}/api/`, limiter);
 
-// Mount routes
-app.use('/', routes);
+// Mount routes with base path
+app.use(BASE_PATH, routes);
 
 // Error handling middleware
 app.use(errorHandler);
@@ -85,6 +111,10 @@ const connectDB = async () => {
       useUnifiedTopology: true,
     });
     console.log('MongoDB database connection established successfully');
+    if (PREVIEW_MODE) {
+      console.log('Running in preview mode with base path:', BASE_PATH);
+      console.log('CORS origin:', CORS_ORIGIN);
+    }
   } catch (error) {
     console.error('MongoDB connection error:', error);
     process.exit(1);
