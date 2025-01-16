@@ -1,27 +1,26 @@
 FROM node:18-alpine
 
+# Install pnpm
+RUN npm install -g pnpm
+
 WORKDIR /app
 
-# Copy package files
+# Copy package.json
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN pnpm install --no-store
 
-# Copy the rest of the code
+# Copy the rest of the application code
 COPY . .
 
-# Set environment variables
-ENV NODE_ENV=production
-ENV CI=false
+ENV NODE_OPTIONS=--openssl-legacy-provider
+ENV NODE_OPTIONS="--max-old-space-size=4096 --openssl-legacy-provider"
 
-# Build the app
-RUN npm run build
+RUN pnpm run build:css
 
-# Install serve to serve the static files
-RUN npm install -g serve
+RUN pnpm run build
 
 EXPOSE 3001
 
-# Serve the app with the correct base path
-CMD ["serve", "-s", "build", "-l", "3001"]
+CMD ["pnpm", "start"]
