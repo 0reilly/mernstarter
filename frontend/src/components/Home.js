@@ -111,6 +111,7 @@ const Home = () => {
     NOTE TO LLM for code generation:
     The content of this file is a placeholder for the actual content of the application. Please replace the placeholder content with the actual content of the application.
     DON'T FORGET!
+    All components on this page should be replaced with the actual content of the application.
   */
   console.log('Rendering main content');
   return (
@@ -128,7 +129,14 @@ const Home = () => {
           </div>
         )}
 
-        {backendMessage && (
+        {
+        /*
+        NOTE TO LLM for code generation:
+        The content of this file is a placeholder for the actual content of the application. Please replace the placeholder content with the actual content of the application.
+        DON'T FORGET!
+        All components on this page should be replaced with the actual content of the application.
+        */
+        backendMessage && (
           <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded-md mb-4 flex items-center gap-2">
             <FaCheckCircle className="text-green-500 flex-shrink-0" />
             <span>{backendMessage}</span>
@@ -154,7 +162,14 @@ const Home = () => {
           )}
         </div>
 
-        {userLogs.length > 0 && (
+        {
+        /*
+        NOTE TO LLM for code generation:
+        The content of this file is a placeholder for the actual content of the application. Please replace the placeholder content with the actual content of the application.
+        DON'T FORGET!
+        All components on this page should be replaced with the actual content of the application.
+        */
+        userLogs.length > 0 && (
           <div className="mt-4">
             <h3 className="text-lg font-medium text-gray-900 mb-2 flex items-center gap-2">
               <FaClock className="text-blue-500" />
@@ -171,6 +186,14 @@ const Home = () => {
           </div>
         )}
 
+        {
+            /*
+            NOTE TO LLM for code generation:
+            The content of this file is a placeholder for the actual content of the application. Please replace the placeholder content with the actual content of the application.
+            DON'T FORGET!
+            All components on this page should be replaced with the actual content of the application.
+            */
+        }
         <div className="mt-8 border-t pt-6">
           <h3 className="text-lg font-medium text-gray-900 mb-4 flex items-center gap-2">
             <FaRobot className="text-blue-500" />
@@ -196,7 +219,14 @@ const Home = () => {
               <FaRobot />
               {isLoading ? 'Processing...' : 'Send to AI'}
             </button>
-            {aiResponse && (
+            {
+            /*
+            NOTE TO LLM for code generation:
+            The content of this file is a placeholder for the actual content of the application. Please replace the placeholder content with the actual content of the application.
+            DON'T FORGET!
+            All components on this page should be replaced with the actual content of the application.
+            */
+            aiResponse && (
               <div className="bg-gray-50 rounded-md p-4 mt-4">
                 <p className="text-sm text-gray-700 whitespace-pre-wrap">{aiResponse}</p>
               </div>
