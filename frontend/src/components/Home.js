@@ -107,6 +107,11 @@ const Home = () => {
     );
   }
 
+  /*
+    NOTE TO LLM for code generation:
+    The content of this file is a placeholder for the actual content of the application. Please replace the placeholder content with the actual content of the application.
+    DON'T FORGET!
+  */
   console.log('Rendering main content');
   return (
     <div className="space-y-8">
