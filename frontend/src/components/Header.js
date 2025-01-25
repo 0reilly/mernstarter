@@ -1,12 +1,7 @@
-import React, { useContext } from 'react';
-import { UserContext } from '../context/UserContext';
+import React from 'react';
 
 const Header = () => {
-  const { username, clearUser } = useContext(UserContext);
-
-  const handleLogout = () => {
-    clearUser();
-  };
+  const username = localStorage.getItem('username');
 
   return (
     <header className="bg-white shadow-sm">
@@ -15,14 +10,8 @@ const Header = () => {
           <h1 className="text-2xl font-bold text-gray-900">Replace this text with the name of your application</h1>
           <nav>
             {username && (
-              <div className="flex items-center gap-4">
+              <div className="flex items-center">
                 <span className="text-gray-700">Hello, {username}</span>
-                <button
-                  onClick={handleLogout}
-                  className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors"
-                >
-                  Logout
-                </button>
               </div>
             )}
           </nav>

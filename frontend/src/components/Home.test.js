@@ -2,19 +2,46 @@ import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Home from './Home';
-import { UserContext } from '../context/UserContext';
 import api from '../utils/api';
+import { BrowserRouter } from 'react-router-dom';
+import * as iframeUtils from '../utils/iframeUtils';
 
 // Mock the api module
 jest.mock('../utils/api');
+
+// Mock iframeUtils
+jest.mock('../utils/iframeUtils', () => ({
+  isInIframe: jest.fn()
+}));
+
+// Mock localStorage
+const localStorageMock = {
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+  clear: jest.fn()
+};
+global.localStorage = localStorageMock;
 
 describe('Home component', () => {
   beforeEach(() => {
     // Clear all mocks before each test
     jest.clearAllMocks();
+    localStorage.clear();
+    iframeUtils.isInIframe.mockReturnValue(false);
   });
 
+  const renderWithRouter = (component) => {
+    return render(
+      <BrowserRouter>
+        {component}
+      </BrowserRouter>
+    );
+  };
+
   it('renders welcome message when username is present', async () => {
+    // Set up localStorage mock
+    localStorage.getItem.mockReturnValue('testuser');
+
     // Mock successful API responses
     api.get.mockImplementation((url) => {
       if (url === '/api/test') {
@@ -34,11 +61,7 @@ describe('Home component', () => {
       }
     });
 
-    render(
-      <UserContext.Provider value={{ username: 'testuser', isIframe: false }}>
-        <Home />
-      </UserContext.Provider>
-    );
+    renderWithRouter(<Home />);
 
     // Check for initial welcome message
     expect(screen.getByText(/Welcome to the application, testuser!/i)).toBeInTheDocument();
@@ -59,17 +82,19 @@ describe('Home component', () => {
   });
 
   it('renders waiting message when no username is present', () => {
-    render(
-      <UserContext.Provider value={{ username: null, isIframe: false }}>
-        <Home />
-      </UserContext.Provider>
-    );
+    // Set up localStorage mock to return null
+    localStorage.getItem.mockReturnValue(null);
 
-    expect(screen.getByText(/Please sign in to access this application./i)).toBeInTheDocument();
+    renderWithRouter(<Home />);
+
+    expect(screen.getByText(/Waiting for username from parent application.../i)).toBeInTheDocument();
     expect(api.get).not.toHaveBeenCalled();
   });
 
   it('displays error message when API call fails', async () => {
+    // Set up localStorage mock
+    localStorage.getItem.mockReturnValue('testuser');
+
     // Mock API failure
     api.get.mockRejectedValue({ 
       response: { 
@@ -77,11 +102,7 @@ describe('Home component', () => {
       }
     });
 
-    render(
-      <UserContext.Provider value={{ username: 'testuser', isIframe: false }}>
-        <Home />
-      </UserContext.Provider>
-    );
+    renderWithRouter(<Home />);
 
     await waitFor(() => {
       expect(screen.getByText(/Failed to connect to backend: Connection failed/i)).toBeInTheDocument();
@@ -89,16 +110,20 @@ describe('Home component', () => {
   });
 
   it('shows iframe-specific message when in iframe without username', () => {
-    render(
-      <UserContext.Provider value={{ username: null, isIframe: true }}>
-        <Home />
-      </UserContext.Provider>
-    );
+    // Set up localStorage mock to return null
+    localStorage.getItem.mockReturnValue(null);
+    // Mock isInIframe to return true
+    iframeUtils.isInIframe.mockReturnValue(true);
+
+    renderWithRouter(<Home />);
 
     expect(screen.getByText(/Waiting for username from parent application.../i)).toBeInTheDocument();
   });
 
   it('displays user logs when available', async () => {
+    // Set up localStorage mock
+    localStorage.getItem.mockReturnValue('testuser');
+
     const mockLogs = [
       {
         _id: '1',
@@ -125,11 +150,7 @@ describe('Home component', () => {
       }
     });
 
-    render(
-      <UserContext.Provider value={{ username: 'testuser', isIframe: false }}>
-        <Home />
-      </UserContext.Provider>
-    );
+    renderWithRouter(<Home />);
 
     await waitFor(() => {
       expect(screen.getByText(/Recent Access Logs:/i)).toBeInTheDocument();

@@ -1,12 +1,12 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
-import { UserContext } from '../context/UserContext';
 import Input from './ui/Input';
 import api from '../utils/api';
 import { FaUser, FaExclamationCircle, FaCheckCircle, FaClock, FaKeyboard, FaRobot } from 'react-icons/fa';
+import { isInIframe } from '../utils/iframeUtils';
 
 const Home = () => {
-  const { username, isIframe } = useContext(UserContext);
+  const username = localStorage.getItem('username') || '';
   const { appId } = useParams();
   const location = useLocation();
   const [testInput, setTestInput] = useState('');
@@ -21,7 +21,6 @@ const Home = () => {
 
   console.log('Home component rendered:', { 
     username, 
-    isIframe,
     appId,
     mode,
     pathname: location.pathname,
@@ -35,7 +34,6 @@ const Home = () => {
         try {
           console.log('Testing backend connection for user:', username);
           console.log('API base URL:', api.defaults.baseURL);
-          console.log('Is in iframe:', isIframe);
           console.log('App ID:', appId);
           console.log('Mode:', mode);
           console.log('Current path:', location.pathname);
@@ -44,7 +42,7 @@ const Home = () => {
           const response = await api.get('/test', {
             params: {
               userId: username,
-              source: isIframe ? 'iframe' : 'direct'
+              source: 'iframe'
             }
           });
           console.log('Backend response:', response.data);
@@ -71,7 +69,7 @@ const Home = () => {
 
     console.log('Running testBackendConnection effect');
     testBackendConnection();
-  }, [username, isIframe, appId, mode, location.pathname]);
+  }, [username, appId, mode, location.pathname]);
 
   const handleAiTest = async () => {
     if (!aiPrompt) return;
@@ -99,9 +97,7 @@ const Home = () => {
       <div className="text-center">
         <p className="text-gray-600 flex items-center justify-center gap-2">
           <FaUser className="text-gray-400" />
-          {isIframe 
-            ? "Waiting for username from parent application..."
-            : "Please sign in to access this application."}
+          Waiting for username from parent application...
         </p>
       </div>
     );
