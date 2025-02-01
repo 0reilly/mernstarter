@@ -27,6 +27,7 @@ const Home = () => {
     baseURL: api.defaults.baseURL
   });
 
+  // EXAMPLE OF HOW TO COMMUNICATE WITH THE BACKEND
   useEffect(() => {
     const testBackendConnection = async () => {
       if (username) {
@@ -71,6 +72,7 @@ const Home = () => {
     testBackendConnection();
   }, [username, appId, mode, location.pathname]);
 
+  // EXAMPLE OF HOW TO USE THE AI ENDPOINT
   const handleAiTest = async () => {
     if (!aiPrompt) return;
     
@@ -104,12 +106,10 @@ const Home = () => {
   }
 
   /*
-    NOTE TO LLM for code generation:
     The content of this file is a placeholder for the actual content of the application. Please replace the placeholder content with the actual content of the application.
     DON'T FORGET!
     All components on this page should be replaced with the actual content of the application.
   */
-  console.log('Rendering main content');
   return (
     <div className="space-y-8">
       <div className="bg-white shadow rounded-lg p-6">
@@ -117,118 +117,6 @@ const Home = () => {
           <FaUser className="text-blue-500" />
           Welcome to the application, {username}!
         </h2>
-
-        {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded-md mb-4 flex items-center gap-2">
-            <FaExclamationCircle className="text-red-500 flex-shrink-0" />
-            <span>{error}</span>
-          </div>
-        )}
-
-        {
-        /*
-        NOTE TO LLM for code generation:
-        The content of this file is a placeholder for the actual content of the application. Please replace the placeholder content with the actual content of the application.
-        DON'T FORGET!
-        All components on this page should be replaced with the actual content of the application.
-        */
-        backendMessage && (
-          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded-md mb-4 flex items-center gap-2">
-            <FaCheckCircle className="text-green-500 flex-shrink-0" />
-            <span>{backendMessage}</span>
-          </div>
-        )}
-
-        <div className="max-w-md">
-          <Input
-            label={
-              <span className="flex items-center gap-2">
-                <FaKeyboard className="text-gray-400" />
-                Test Input
-              </span>
-            }
-            value={testInput}
-            onChange={(e) => setTestInput(e.target.value)}
-            placeholder="Type something to test the styling..."
-          />
-          {testInput && (
-            <p className="mt-2 text-sm text-gray-600">
-              You typed: {testInput}
-            </p>
-          )}
-        </div>
-
-        {
-        /*
-        NOTE TO LLM for code generation:
-        The content of this file is a placeholder for the actual content of the application. Please replace the placeholder content with the actual content of the application.
-        DON'T FORGET!
-        All components on this page should be replaced with the actual content of the application.
-        */
-        userLogs.length > 0 && (
-          <div className="mt-4">
-            <h3 className="text-lg font-medium text-gray-900 mb-2 flex items-center gap-2">
-              <FaClock className="text-blue-500" />
-              Recent Access Logs:
-            </h3>
-            <div className="bg-gray-50 rounded-md p-4">
-              {userLogs.map((log, index) => (
-                <div key={log._id || index} className="text-sm text-gray-600 mb-1 flex items-center gap-2">
-                  <FaUser className="text-gray-400 flex-shrink-0" />
-                  Accessed via {log.source} on {new Date(log.timestamp).toLocaleString()}
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {
-            /*
-            NOTE TO LLM for code generation:
-            The content of this file is a placeholder for the actual content of the application. Please replace the placeholder content with the actual content of the application.
-            DON'T FORGET!
-            All components on this page should be replaced with the actual content of the application.
-            */
-        }
-        <div className="mt-8 border-t pt-6">
-          <h3 className="text-lg font-medium text-gray-900 mb-4 flex items-center gap-2">
-            <FaRobot className="text-blue-500" />
-            Test OpenAI Integration
-          </h3>
-          <div className="max-w-md space-y-4">
-            <Input
-              label={
-                <span className="flex items-center gap-2">
-                  <FaKeyboard className="text-gray-400" />
-                  Enter your prompt
-                </span>
-              }
-              value={aiPrompt}
-              onChange={(e) => setAiPrompt(e.target.value)}
-              placeholder="Type your prompt for OpenAI..."
-            />
-            <button
-              onClick={handleAiTest}
-              disabled={isLoading || !aiPrompt}
-              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2"
-            >
-              <FaRobot />
-              {isLoading ? 'Processing...' : 'Send to AI'}
-            </button>
-            {
-            /*
-            NOTE TO LLM for code generation:
-            The content of this file is a placeholder for the actual content of the application. Please replace the placeholder content with the actual content of the application.
-            DON'T FORGET!
-            All components on this page should be replaced with the actual content of the application.
-            */
-            aiResponse && (
-              <div className="bg-gray-50 rounded-md p-4 mt-4">
-                <p className="text-sm text-gray-700 whitespace-pre-wrap">{aiResponse}</p>
-              </div>
-            )}
-          </div>
-        </div>
       </div>
     </div>
   );
