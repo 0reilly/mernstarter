@@ -19,7 +19,8 @@ router.post('/test', async (req, res) => {
         }
 
         const completion = await openai.chat.completions.create({
-            model: "gpt-4o",
+            model: "o3-mini",
+            reasoning_effort: "low",
             messages: [
                 { role: "user", content: prompt }
             ]
