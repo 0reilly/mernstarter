@@ -9,6 +9,8 @@ services:
             - NODE_ENV=development
         depends_on:
             - backend
+        networks:
+            - app-network
 
     backend:
         build: ./backend
@@ -24,13 +26,28 @@ services:
             - OPENAI_API_KEY=${OPENAI_API_KEY}
         depends_on:
             - mongo
+        networks:
+            - app-network
 
     mongo:
-        image: mongo
+        image: mongo:6.0
+        platform: linux/amd64
         ports:
             - "27017:27017"
         volumes:
             - mongo-data:/data/db
+        networks:
+            - app-network
+        healthcheck:
+            test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+            start_period: 30s
 
 volumes:
     mongo-data:
+
+networks:
+    app-network:
+        driver: bridge
