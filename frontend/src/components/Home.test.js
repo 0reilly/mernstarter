@@ -11,18 +11,22 @@ jest.mock('../utils/iframeUtils', () => ({
 }));
 
 // Mock localStorage
-const localStorageMock = {
-  getItem: jest.fn(),
-  setItem: jest.fn(),
-  clear: jest.fn()
-};
-global.localStorage = localStorageMock;
+Object.defineProperty(window, 'localStorage', {
+  value: {
+    getItem: jest.fn(),
+    setItem: jest.fn(),
+    clear: jest.fn()
+  },
+  writable: true
+});
 
 describe('Home component', () => {
   beforeEach(() => {
     // Clear all mocks before each test
     jest.clearAllMocks();
-    localStorage.clear();
+    window.localStorage.clear.mockClear();
+    window.localStorage.getItem.mockClear();
+    window.localStorage.setItem.mockClear();
     iframeUtils.isInIframe.mockReturnValue(false);
   });
 
@@ -36,7 +40,7 @@ describe('Home component', () => {
 
   it('renders welcome message when username is present', () => {
     // Set up localStorage mock
-    localStorage.getItem.mockReturnValue('testuser');
+    window.localStorage.getItem.mockReturnValue('testuser');
 
     renderWithRouter(<Home />);
 
@@ -49,7 +53,7 @@ describe('Home component', () => {
 
   it('renders waiting message when no username is present', () => {
     // Set up localStorage mock to return null
-    localStorage.getItem.mockReturnValue(null);
+    window.localStorage.getItem.mockReturnValue(null);
 
     renderWithRouter(<Home />);
 

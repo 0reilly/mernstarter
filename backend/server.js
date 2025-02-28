@@ -80,6 +80,7 @@ app.use(errorHandler);
 
 const connectDB = async () => {
   try {
+    // Use mongoose.connect options compatible with MongoDB Memory Server
     await mongoose.connect(MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -87,7 +88,12 @@ const connectDB = async () => {
     console.log('MongoDB database connection established successfully');
   } catch (error) {
     console.error('MongoDB connection error:', error);
-    process.exit(1);
+    // Don't exit the process in test environment
+    if (process.env.NODE_ENV !== 'test') {
+      process.exit(1);
+    } else {
+      throw error; // Throw the error so tests can catch it
+    }
   }
 };
 
