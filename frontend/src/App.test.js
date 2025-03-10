@@ -16,8 +16,7 @@ jest.mock('react-router-dom', () => {
     ...originalModule,
     BrowserRouter: ({ children }) => <div>{children}</div>,
     Routes: ({ children }) => <div data-testid="routes">{children}</div>,
-    Route: () => null, // Don't render route elements
-    Navigate: () => <div data-testid="navigate">Navigate</div>
+    Route: () => null
   };
 });
 
@@ -33,10 +32,8 @@ describe('App Component', () => {
     const routesElement = screen.getByTestId('routes');
     expect(routesElement).toBeInTheDocument();
     
-    // Verify the app has the expected structure
+    // Verify the app has the expected structure and styling
     const rootElement = mainElement.parentElement;
-    expect(rootElement).toHaveClass('min-h-screen');
-    expect(rootElement).toHaveClass('flex');
-    expect(rootElement).toHaveClass('bg-gray-50');
+    expect(rootElement).toHaveClass('min-h-screen', 'flex', 'flex-col', 'bg-gray-50');
   });
 }); 
