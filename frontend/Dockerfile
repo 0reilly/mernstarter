@@ -1,19 +1,19 @@
 FROM node:18-alpine
 
-# Install pnpm and tailwindcss globally
+# Install pnpm
 RUN npm install -g pnpm
-RUN npm install -g tailwindcss
 
 WORKDIR /app
 
 # Copy package.json
 COPY package*.json ./
 
-# Install dependencies with proper flags to handle pnpm permission issues
-RUN pnpm install --no-store --shamefully-hoist
+# Create a .npmrc file to help with pnpm config
+RUN echo "shamefully-hoist=true\nstrict-peer-dependencies=false\nnode-linker=hoisted" > .npmrc
 
-# Install @tailwindcss/postcss for Tailwind CSS v4 compatibility
-RUN pnpm add -D @tailwindcss/postcss
+# Install dependencies including Tailwind CSS and its PostCSS plugin
+RUN pnpm install
+RUN pnpm install -D tailwindcss @tailwindcss/postcss postcss
 
 # Copy the rest of the application code
 COPY . .
