@@ -5,6 +5,7 @@ import { FaUser } from 'react-icons/fa';
 
 /**
  * LLM IMPLEMENTATION GUIDE
+ * THIS IS JUST A BOIILERPLATE! REPLACE THIS COMPONENT WITH YOUR OWN COMPONENT! DO NOT LEAVE ANYTHING HERE!
  * 
  * This is a modular Home component with clearly defined extension points.
  * Structure:
@@ -45,9 +46,6 @@ const Home = () => {
           </div>
         </div>
       </Card>
-      
-      {/* EXTENSION POINT: Add additional sections here */}
-      {/* Additional sections can be added here as needed */}
     </div>
   );
 };
