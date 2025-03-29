@@ -36,8 +36,6 @@ COPY --from=builder /app/index.js ./
 COPY --from=builder /app/server.js ./
 COPY --from=builder /app/routes ./routes
 COPY --from=builder /app/models ./models
-COPY --from=builder /app/config ./config
-COPY --from=builder /app/utils ./utils
 COPY --from=builder /app/middleware ./middleware
 
 # Set production environment
