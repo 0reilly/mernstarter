@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:18-alpine AS builder
 
 # Install pnpm
 RUN npm install -g pnpm
@@ -30,6 +30,17 @@ RUN npx tailwindcss -i src/index.css -o src/tailwind.output.css || echo "Tailwin
 
 RUN pnpm run build
 
-EXPOSE 3001
+# Production stage with nginx
+FROM nginx:alpine
 
-CMD ["pnpm", "start"]
+# Copy nginx configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copy built assets from builder
+COPY --from=builder /app/build /usr/share/nginx/html
+
+# Expose port 80
+EXPOSE 80
+
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"]
