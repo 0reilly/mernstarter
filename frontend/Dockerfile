@@ -39,8 +39,8 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 # Copy built assets from builder
 COPY --from=builder /app/build /usr/share/nginx/html
 
-# Expose port 80
-EXPOSE 80
+# Expose port 3001
+EXPOSE 3001
 
 # Start nginx
 CMD ["nginx", "-g", "daemon off;"]
