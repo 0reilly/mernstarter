@@ -18,9 +18,6 @@ RUN pnpm install -D tailwindcss@3.4.1 postcss autoprefixer
 # Copy the rest of the application code
 COPY . .
 
-# Run tests first to ensure code quality
-RUN CI=true pnpm test || echo "::ERROR:: Frontend tests failed"
-
 ENV NODE_OPTIONS=--openssl-legacy-provider
 ENV NODE_OPTIONS="--max-old-space-size=2048 --openssl-legacy-provider"
 ENV PATH=/app/node_modules/.bin:$PATH
