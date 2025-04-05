@@ -2,7 +2,7 @@
   "scripts": {
     "start": "PORT=3001 react-scripts start",
     "build": "NODE_ENV=production react-scripts build",
-    "test": "jest --verbose --detectOpenHandles --runInBand --config jest.config.js",
+    "test": "NODE_ENV=test jest --verbose --detectOpenHandles --runInBand --config jest.config.js",
     "test:watch": "jest --config jest.config.js --watch",
     "eject": "react-scripts eject",
     "build:css": "NODE_ENV=production tailwindcss -i src/index.css -o src/tailwind.output.css"

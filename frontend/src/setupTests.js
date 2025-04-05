@@ -62,7 +62,7 @@ if (typeof TextEncoder === 'undefined') {
 
 // Force React to use development mode for tests
 // This fixes the "act(...) is not supported in production builds of React" error
-process.env.NODE_ENV = 'development';
+process.env.NODE_ENV = 'test';
 
 // Mock window.matchMedia
 Object.defineProperty(window, 'matchMedia', {
