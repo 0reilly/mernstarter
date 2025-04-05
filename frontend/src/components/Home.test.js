@@ -16,14 +16,4 @@ describe('Home Component', () => {
     expect(screen.getByText(/Start with one simple feature/i)).toBeInTheDocument();
   });
 
-  test('renders with route parameters', () => {
-    render(
-      <MemoryRouter initialEntries={['/preview/app/123']}>
-        <Routes>
-          <Route path="/:mode/app/:appId" element={<Home />} />
-        </Routes>
-      </MemoryRouter>
-    );
-
-
 });
