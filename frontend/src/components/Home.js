@@ -1,32 +1,14 @@
 import React from 'react';
-import { useParams, useLocation } from 'react-router-dom';
 import Card from './ui/Card';
 import { FaUser } from 'react-icons/fa';
 
-/**
- * LLM IMPLEMENTATION GUIDE
- * THIS IS JUST A BOIILERPLATE! REPLACE THIS COMPONENT WITH YOUR OWN COMPONENT! DO NOT LEAVE ANYTHING HERE!
- * 
- * This is a modular Home component with clearly defined extension points.
- * Structure:
- * 1. Sections are separated into their own components for easier maintenance
- * 2. Each section uses Card components for consistent styling
- * 3. Extension points are clearly marked with comments
- * 4. The component handles loading states and different user scenarios
- */
-
 const Home = () => {
-  const { appId } = useParams();
-  const location = useLocation();
-  const mode = location.pathname.includes('preview') ? 'preview' : 'live';
-
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <Card 
         className="mb-4" 
         title="Welcome to Your Project" 
         icon={<FaUser className="text-green-500" />}
-        subtitle={`${mode === 'preview' ? 'Preview' : 'Published'} project${appId ? ` #${appId}` : ''}`}
       >
         <div className="p-4">
           <h3 className="text-lg font-semibold mb-2">Getting Started</h3>

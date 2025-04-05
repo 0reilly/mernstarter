@@ -25,18 +25,5 @@ describe('Home Component', () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByText(/Preview project #123/i)).toBeInTheDocument();
-  });
 
-  test('shows correct mode in subtitle', () => {
-    render(
-      <MemoryRouter initialEntries={['/live/app/456']}>
-        <Routes>
-          <Route path="/:mode/app/:appId" element={<Home />} />
-        </Routes>
-      </MemoryRouter>
-    );
-
-    expect(screen.getByText(/Published project #456/i)).toBeInTheDocument();
-  });
 });
