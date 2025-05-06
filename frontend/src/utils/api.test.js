@@ -103,28 +103,29 @@ describe('API Utility', () => {
       search: '?backendPort=5002'
     };
     
-    // Re-import to trigger URL calculation
+    // Re-import to get the function
     jest.resetModules();
-    const { BASE_URL } = require('./api');
+    const { getBackendUrl } = require('./api');
     
-    // Check that the correct URL was used
-    expect(BASE_URL).toBe('http://localhost:5002');
+    // Call the function directly and check the result
+    expect(getBackendUrl()).toBe('http://localhost:5002');
   });
   
   test('uses correct backend URL for production with app path', () => {
     // Set window.location to a production-like URL
     window.location = {
-      ...window.location,
       protocol: 'https:',
       hostname: 'example.com',
-      pathname: '/preview/app/123'
+      pathname: '/preview/app/123',
+      search: '',
+      href: 'https://example.com/preview/app/123'
     };
     
-    // Re-import to trigger URL calculation
+    // Re-import to get the function
     jest.resetModules();
-    const { BASE_URL } = require('./api');
+    const { getBackendUrl } = require('./api');
     
-    // Check that the correct URL was used
-    expect(BASE_URL).toBe('https://example.com/preview/app/123');
+    // Call the function directly and check the result
+    expect(getBackendUrl()).toBe('https://example.com/preview/app/123');
   });
 }); 

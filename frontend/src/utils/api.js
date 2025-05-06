@@ -34,6 +34,9 @@ const getBackendUrl = () => {
 // Export the base URL for other uses (like WebSocket connections)
 export const BASE_URL = getBackendUrl();
 
+// Export the function itself for testing or other dynamic uses
+export { getBackendUrl };
+
 const api = axios.create({
   baseURL: BASE_URL,
   withCredentials: true,
