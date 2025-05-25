@@ -35,24 +35,17 @@ const connectWithRetry = async (uri, retries = 5, delay = 1000) => {
 
 beforeAll(async () => {
   try {
-    // Create an instance of MongoDB Memory Server
-    mongoServer = await MongoMemoryServer.create({
-      binary: { version: '6.0.8' }
-    });
+    mongoServer = await MongoMemoryServer.create();
     const mongoUri = mongoServer.getUri();
     
-    // Set MongoDB URI to the in-memory database
     process.env.MONGODB_URI = mongoUri;
     
-    // Connect to the in-memory database with retry
     const connected = await connectWithRetry(mongoUri);
     
     if (connected) {
-      // Only import the app after successful DB connection to avoid early exit
       const { app: expressApp } = require('./server');
       app = expressApp;
       
-      // Clear any test data
       await UserLog.deleteMany({});
       console.log('Test database initialized successfully');
     } else {
@@ -65,13 +58,11 @@ beforeAll(async () => {
 
 afterAll(async () => {
   try {
-    // Disconnect from the database
     if (mongoose.connection.readyState) {
       await mongoose.connection.close();
       console.log('MongoDB connection closed');
     }
     
-    // Stop MongoDB Memory Server
     if (mongoServer) {
       await mongoServer.stop();
       console.log('MongoDB Memory Server stopped');
@@ -83,7 +74,6 @@ afterAll(async () => {
 
 describe('API Endpoints', () => {
   beforeEach(() => {
-    // Skip all tests if no app or database connection
     if (!app || !mongoose.connection.readyState) {
       console.warn('Tests skipped: No app or database connection');
       return;
@@ -91,7 +81,6 @@ describe('API Endpoints', () => {
   });
 
   it('should validate username presence', async () => {
-    // Skip test if no app or database connection
     if (!app || !mongoose.connection.readyState) {
       console.log('Skipping test: database not connected');
       return;
@@ -106,7 +95,6 @@ describe('API Endpoints', () => {
   });
 
   it('should log user access and return success', async () => {
-    // Skip test if no app or database connection
     if (!app || !mongoose.connection.readyState) {
       console.log('Skipping test: database not connected');
       return;
@@ -119,17 +107,14 @@ describe('API Endpoints', () => {
     expect(res.status).toBe(200);
     expect(res.body.message).toBe('Backend connection successful for user testuser!');
     
-    // Wait a bit for the database operation to complete
     await new Promise(resolve => setTimeout(resolve, 500));
     
-    // Verify log was created
     const logs = await UserLog.find({ username: 'testuser' });
     expect(logs).toHaveLength(1);
     expect(logs[0].source).toBe('iframe');
   });
 
   it('should retrieve user logs', async () => {
-    // Skip test if no app or database connection
     if (!app || !mongoose.connection.readyState) {
       console.log('Skipping test: database not connected');
       return;
