@@ -36,7 +36,9 @@ const connectWithRetry = async (uri, retries = 5, delay = 1000) => {
 beforeAll(async () => {
   try {
     // Create an instance of MongoDB Memory Server
-    mongoServer = await MongoMemoryServer.create();
+    mongoServer = await MongoMemoryServer.create({
+      binary: { version: '6.0.8' }
+    });
     const mongoUri = mongoServer.getUri();
     
     // Set MongoDB URI to the in-memory database
